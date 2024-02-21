@@ -2,8 +2,10 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Ionicons } from '@expo/vector-icons';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-
+import { useNavigation, NavigationProp } from '@react-navigation/native'; // Import StackNavigationProp
+import { Button } from 'react-native';
+import { useRouter } from 'expo-router';
+import Home from './(tabs)/home';
 
 interface SlideItem {
   title: string;
@@ -59,7 +61,7 @@ const slides = [
 
 
 const AppIntroScreen: React.FC = () => {
-    const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<any>>(); // Define NavigationProp type
 
   const _renderItem = ({ item }: { item: SlideItem }) => {
     return (
@@ -85,7 +87,7 @@ const AppIntroScreen: React.FC = () => {
     return (
         <TouchableOpacity
         style={styles.buttonCircle}
-        onPress={() => navigation.navigate('home')}
+        onPress={() => navigation.navigate('Home')}
       >
         <Ionicons
           name="search"
@@ -104,8 +106,4 @@ const AppIntroScreen: React.FC = () => {
       />  
     );
   }
-  export default function App() {
-    return (
-        <AppIntroScreen />
-    );
-  }
+  export default AppIntroScreen;

@@ -8,7 +8,11 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
-
+import { createStackNavigator } from '@react-navigation/stack';
+import calc from './carboncalc/calc';
+import Home from './(tabs)/home';
+import AppIntroScreen from './welcome';
+import { NavigationContainer } from '@react-navigation/native'; 
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -50,12 +54,13 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const router = useRouter();
+  const Stack = createStackNavigator(); // Create Stack Navigator
   return (
-      <Stack>
-        <Stack.Screen name='welcome' options={{ headerShown: false }}/>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
+        <Stack.Navigator initialRouteName="welcome" screenOptions={{ headerShown: false }}>
+          <Stack.Screen name='welcome' component={AppIntroScreen} />
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="calc" component={calc} />
+        </Stack.Navigator>
   );
 }
 

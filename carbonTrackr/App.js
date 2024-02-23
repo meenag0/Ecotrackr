@@ -1,39 +1,64 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import ProgressScreen from "./tabs/ProgressScreen";
-import ProfileScreen from "./tabs/ProfileScreen";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { AboutStack } from "./AppStack";
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import ProgressScreen from './tabs/ProgressScreen';
+import ProfileScreen from './tabs/ProfileScreen';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { AppNavigator } from './navStack';
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { CalcScreen } from './screens/calc';
+import { HomeScreen } from './tabs/HomeScreen';
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          //   tabBarShowLabel: false,
-          tabBarLabelPosition: "below-icon",
-          tabBarActiveTintColor: "purple",
-        }}
-      >
-        <Tab.Screen name="Course List" component={ProgressScreen} />
-        <Tab.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{
-            tabBarLabel: "My Profile",
-            tabBarIcon: () => <Ionicons name={"person"} size={20} />,
-          }}
-        />
-        <Tab.Screen
-          name="About Stack"
-          component={AboutStack}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
-}
+const MainTabNavigator = () => (
+  <Tab.Navigator
+    screenOptions={{
+      tabBarLabelPosition: 'below-icon',
+      tabBarActiveTintColor: 'purple',
+      tabBarLabel: '',
+    }}>
+    <Tab.Screen
+      name="Home"
+      component={AppNavigator}
+      options={{
+        tabBarLabel: 'Home',
+        tabBarIcon: () => <Ionicons name={'home'} size={20} />,
+      }}
+    />
+    <Tab.Screen
+      name="Progress"
+      component={ProgressScreen}
+      options={{
+        tabBarLabel: 'Progress',
+        tabBarIcon: () => <Ionicons name={'graph'} size={20} />,
+      }}
+    />
+    <Tab.Screen
+      name="Profile"
+      component={ProfileScreen}
+      options={{
+        tabBarLabel: 'Profile',
+        tabBarIcon: () => <Ionicons name={'person'} size={20} />,
+      }}
+    />
+  </Tab.Navigator>
+);
+
+export default () => (
+  <>
+    <IconRegistry icons={EvaIconsPack} />
+    <ApplicationProvider {...eva} theme={{ ...eva.dark }}>
+      <NavigationContainer>
+        <Stack.Navigator headerMode="none">
+          <Stack.Screen name="Main" component={MainTabNavigator} />
+          <Stack.Screen name="Calc" component={CalcScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ApplicationProvider>
+  </>
+);

@@ -11,6 +11,7 @@ import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { CalcScreen } from './screens/calc';
 import { HomeScreen } from './tabs/HomeScreen';
+import { EnergyScreen } from './screens/energy';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -57,6 +58,7 @@ export default () => (
         <Stack.Navigator headerMode="none">
           <Stack.Screen name="Main" component={MainTabNavigator} />
           <Stack.Screen name="Calc" component={CalcScreen} />
+          <Stack.Screen name="Energy" component={EnergyScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
     </ApplicationProvider>

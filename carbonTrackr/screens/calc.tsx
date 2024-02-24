@@ -5,6 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { WizardStore } from "../store";
 import { useIsFocused } from "@react-navigation/native";
 
+
 const BackIcon = (props) => (
   <Icon {...props} name='arrow-back' />
 );
@@ -41,10 +42,10 @@ export const CalcScreen = ({ navigation }) => {
   const onSubmit = (data) => {
     WizardStore.update((s) => {
       s.progress = 20;
-      s.fullName = data.fullName;
-      s.age = data.age;
+      s.averageWeeklyMiles = data.averageWeeklyMiles;
+      s.vehicleFuelEfficiency = data.vehicleFuelEfficiency;
     });
-    navigation.navigate('NextPage');
+    navigation.navigate('Energy');
   };
 
   const dismissKeyboard = () => {
@@ -52,77 +53,79 @@ export const CalcScreen = ({ navigation }) => {
   };
   
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <TopNavigation title='Transportation' alignment='center' accessoryLeft={BackAction}/>
-      <Layout style={{ flex: 1 }}>
-      <TouchableWithoutFeedback onPress={dismissKeyboard}>
+<SafeAreaView style={{ flex: 1 }}>
+  <TopNavigation title='Transportation' alignment='center' accessoryLeft={BackAction}/>
+  <Layout style={{ flex: 1 }}>
+    <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <View style={styles.container}>
-      <ProgressBar
-        style={styles.progressBar}
-        progress={WizardStore.getRawState().progress}
-      />
-      <Layout style={{ paddingHorizontal: 16 }}>
-        <View style={styles.formEntry}>
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                label="Full Name"
-                placeholder="Enter Full Name"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
+        <ProgressBar
+          style={styles.progressBar}
+          progress={WizardStore.getRawState().progress}
+        />
+        <Layout style={{ paddingHorizontal: 16 }}>
+          <View style={styles.formEntry}>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  label="Average Weekly Miles Driven"
+                  placeholder="Enter miles"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  keyboardType="numeric"
+                />
+              )}
+              name="averageWeeklyMiles"
+            />
+            {errors.averageWeeklyMiles && (
+              <Text style={styles.errorText}>
+                This is a required field.
+              </Text>
             )}
-            name="fullName"
-          />
-          {errors.fullName && (
-            <Text style={styles.errorText}>
-              This is a required field.
-            </Text>
-          )}
-        </View>
+          </View>
 
-        <View style={styles.formEntry}>
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                label="Age"
-                placeholder="Enter Age"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                keyboardType="numeric"
-              />
+          <View style={styles.formEntry}>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  label="Vehicle Fuel Efficiency"
+                  placeholder="Enter efficiency (e.g., MPG)"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  keyboardType="numeric"
+                />
+              )}
+              name="vehicleFuelEfficiency"
+            />
+            {errors.vehicleFuelEfficiency && (
+              <Text style={styles.errorText}>
+                This is a required field.
+              </Text>
             )}
-            name="age"
-          />
-          {errors.age && (
-            <Text style={styles.errorText}>
-              This is a required field.
-            </Text>
-          )}
-        </View>
+          </View>
 
-        <Button
-          onPress={handleSubmit(onSubmit)}
-          style={styles.button}
-        >
-          GOTO STEP TWO
-        </Button>
-      </Layout>
-    </View>
-      </TouchableWithoutFeedback>
-      </Layout>
+          {/* Add more transportation-related input fields here if necessary */}
 
-    </SafeAreaView>
+          <Button
+            onPress={handleSubmit(onSubmit)}
+            style={styles.button}
+          >
+            GOTO STEP TWO
+          </Button>
+        </Layout>
+      </View>
+    </TouchableWithoutFeedback>
+  </Layout>
+</SafeAreaView>
   );
 };
 
@@ -143,4 +146,8 @@ export const CalcScreen = ({ navigation }) => {
     button: {
       marginVertical: 8,
     },
+
+    // numImput{
+
+    // },
   });

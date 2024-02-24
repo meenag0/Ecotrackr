@@ -1,6 +1,9 @@
-import React from 'react';
-import { View, SafeAreaView, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { Input, Button, Icon, Layout, Text, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
+import React, { useEffect } from "react";
+import { View, StyleSheet, SafeAreaView, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Input, Button, Icon, Layout, Text, TopNavigation, TopNavigationAction, ProgressBar } from '@ui-kitten/components';
+import { useForm, Controller } from "react-hook-form";
+import { WizardStore } from "../store";
+import { useIsFocused } from "@react-navigation/native";
 
 const BackIcon = (props) => (
   <Icon {...props} name='arrow-back' />
@@ -20,14 +23,28 @@ export const CalcScreen = ({ navigation }) => {
     navigation.navigate('NextPage');
   };
 
-  const [value, setValue] = React.useState('');
-  const [isValid, setIsValid] = React.useState(true); // State to track input validity
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({ defaultValues: WizardStore.useState((s) => s) });
+  const isFocused = useIsFocused();
 
-  const onChangeText = (newValue) => {
-    // Regular expression to allow only numeric input
-    const numericRegex = /^[0-9]*$/;
-    setValue(newValue);
-    setIsValid(numericRegex.test(newValue)); 
+  useEffect(() => {
+    isFocused &&
+      WizardStore.update((s) => {
+        s.progress = 0;
+      });
+
+  }, [isFocused]);
+
+  const onSubmit = (data) => {
+    WizardStore.update((s) => {
+      s.progress = 20;
+      s.fullName = data.fullName;
+      s.age = data.age;
+    });
+    navigation.navigate('NextPage');
   };
 
   const dismissKeyboard = () => {
@@ -39,29 +56,91 @@ export const CalcScreen = ({ navigation }) => {
       <TopNavigation title='Transportation' alignment='center' accessoryLeft={BackAction}/>
       <Layout style={{ flex: 1 }}>
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
-      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Input
-          keyboardType="numeric"
-          placeholder="Enter a number"
-          value={value}
-          onChangeText={onChangeText}
-          status={isValid ? 'basic' : 'danger'} // Set status based on input validity
-          caption={isValid ? '' : 'Please enter a valid number'} // Display caption for validation message
-        />
+      <View style={styles.container}>
+      <ProgressBar
+        style={styles.progressBar}
+        progress={WizardStore.getRawState().progress}
+      />
+      <Layout style={{ paddingHorizontal: 16 }}>
+        <View style={styles.formEntry}>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                label="Full Name"
+                placeholder="Enter Full Name"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="fullName"
+          />
+          {errors.fullName && (
+            <Text style={styles.errorText}>
+              This is a required field.
+            </Text>
+          )}
+        </View>
+
+        <View style={styles.formEntry}>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                label="Age"
+                placeholder="Enter Age"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                keyboardType="numeric"
+              />
+            )}
+            name="age"
+          />
+          {errors.age && (
+            <Text style={styles.errorText}>
+              This is a required field.
+            </Text>
+          )}
+        </View>
 
         <Button
-        style={{ position: 'absolute', bottom: 16, right: 16, backgroundColor: 'transparent' }}
-        appearance='outline'
-        onPress={toEnergy}
-        accessoryLeft={(props) => <Icon {...props} name='arrow-forward'/>}
-        disabled={!isValid} // Disable the button if input is invalid
-
-    />
-
+          onPress={handleSubmit(onSubmit)}
+          style={styles.button}
+        >
+          GOTO STEP TWO
+        </Button>
       </Layout>
+    </View>
       </TouchableWithoutFeedback>
       </Layout>
 
     </SafeAreaView>
   );
 };
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    progressBar: {
+      marginBottom: 16,
+    },
+    formEntry: {
+      marginVertical: 8,
+    },
+    errorText: {
+      marginLeft: 16,
+      color: "red",
+    },
+    button: {
+      marginVertical: 8,
+    },
+  });

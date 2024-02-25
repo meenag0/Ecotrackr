@@ -9,30 +9,23 @@ export const WizardStore = new Store({
   vehicleFuelEfficiency: "",
   airTravelFrequency: "",
   publicTransportationUsage: "",
-  bikingWalkingFrequency: "",
   fuelEfficientVehicleOwnership: "",
-  ecoDrivingTechniquesUsage: "",
-  distanceToWorkplace: "",
+  carMaintanence: "",
+  bikingWalkingFrequency: "",
+
 
   electricityUsage: "", // Monthly electricity usage
-  heatingSource: "", // Home heating source
-  ElectricityUsage: "",
-  NaturalGasUsage: "",
-  HeatingOilUsage: "",
-  CoalUsage: "",
-  LPGUsage: "",
-  PropaneUsage: "",
+  heatingUsage: "", // Home heating source
+  naturalGasUsage: "",
+  avgApplianceAge: "",
+
 
   redMeatConsumption: "", // Weekly consumption of red meat
   vegetarianVeganMeals: "", // Proportion of vegetarian or vegan meals
-  seafoodSource: "", // Source of seafood
   localFoodPurchases: "", // Frequency of purchasing locally sourced food
   processedFoodConsumption: "", // Consumption of processed or packaged foods
-  foodWasteReduction: "", // Use of food waste reduction strategies
-  foodCarbonFootprintAwareness: "", // Awareness of food carbon footprint
-  organicProducePreference: "", // Preference for organic or sustainably grown produce
   dairyConsumption: "", // Consumption of dairy products
-  plantBasedAlternatives: "", // Use of plant-based alternatives
+  seafoodConsumption: "", // Use of plant-based alternatives
 });
 
 registerInDevtools({

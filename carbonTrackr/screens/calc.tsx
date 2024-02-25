@@ -10,21 +10,22 @@ const BackIcon = (props) => (
   <Icon {...props} name='arrow-back' />
 );
 
-
 export const CalcScreen = ({ navigation }) => {
 
+  // click on back arrow button, go to last page
   const navigateBack = () => {
     navigation.goBack();
   };
-
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack}/>
   );
 
+  //navigating to energy page of form (next section)
   const toEnergy = () => {
-    navigation.navigate('NextPage');
+    navigation.navigate('Energy');
   };
 
+  //
   const {
     handleSubmit,
     control,
@@ -48,6 +49,8 @@ export const CalcScreen = ({ navigation }) => {
       s.vehicleFuelEfficiency = data.vehicleFuelEfficiency;
       s.airTravelFrequency = data.airtravelFrequency;
       s.publicTransportationUsage = data.publicTransportationUsage;
+      s.carMaintanence = data.carMaintanence;
+      s.bikingWalkingFrequency = data.bikingWalkingFrequency;
 
     });
     console.log("Updated WizardStore state:", WizardStore.getRawState());
@@ -59,7 +62,11 @@ export const CalcScreen = ({ navigation }) => {
   };
 
   const [vehicleFuelEfficiencyIndex, setVehicleFuelEfficiencyIndex] = React.useState<IndexPath | IndexPath[]>();
-  const [airTravelFrequencyIndex, setAirTravelFrequencyIndex] = React.useState<IndexPath | IndexPath[]>();  
+  const [airTravelFrequencyIndex, setAirTravelFrequencyIndex] = React.useState<IndexPath | IndexPath[]>(); 
+  const [bikingWalkingFrequencyIndex, setbikingWalkingFrequencyIndex] = React.useState<IndexPath | IndexPath[]>();
+  const [fuelEfficientVehicleOwnershipIndex, setfuelEfficientVehicleOwnershipIndex] = React.useState<IndexPath | IndexPath[]>();
+
+   
   
   const renderError = (fieldName) => {
     if (errors[fieldName]) {
@@ -71,8 +78,6 @@ export const CalcScreen = ({ navigation }) => {
     }
     return null;
   };
-  
-
   return (
 
 
@@ -89,6 +94,8 @@ export const CalcScreen = ({ navigation }) => {
         
         <Layout style={{ paddingHorizontal: 16 }}>
 
+
+          // input for Average Weekly Miles Driven (averageWeeklyMiles)
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -96,7 +103,6 @@ export const CalcScreen = ({ navigation }) => {
                 required: true,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
-
                 <Input
                   label="Average Weekly Miles Driven"
                   placeholder="Enter miles"
@@ -112,13 +118,13 @@ export const CalcScreen = ({ navigation }) => {
           </View>
 
 
+          // dropdown for Type of vehicle fuel (vehicleFuelEfficiency)
           <View style={styles.formEntry}>
             <Controller
               control={control}
               rules={{
                 required: true,
               }}
-
               render={({ field: { onChange, onBlur, value } }) => (
                 <Select
                 // style={styles.select}
@@ -141,13 +147,43 @@ export const CalcScreen = ({ navigation }) => {
           </View>
 
 
+          // dropdown for biking/walking (bikingWalkingFrequency)
           <View style={styles.formEntry}>
             <Controller
               control={control}
               rules={{
                 required: true,
               }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Select
+                // style={styles.select}
+                label={"Frequency of biking/walking"}
+                placeholder='Active'
+                selectedIndex={bikingWalkingFrequencyIndex}
+                onSelect={(index) => {
+                  setbikingWalkingFrequencyIndex(index);
+                  onChange(index); 
+                }}
+              >
+                <SelectItem title='Option 1' />
+                <SelectItem title='Option 2' />
+                <SelectItem title='Option 3' />
+              </Select>
+            )}
+            name="bikingWalkingFrequency"
+            />
+            {renderError('bikingWalkingFrequency')}
+          </View>
 
+
+
+          // drop down menu for frequency of air travel
+          <View style={styles.formEntry}>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Select
                 // style={styles.select}
@@ -169,6 +205,9 @@ export const CalcScreen = ({ navigation }) => {
             {renderError('airTravelFrequency')}
           </View>
 
+
+
+          // Type of vehicle-electric/hybrid/gas(fuelEfficientVehicleOwnership)
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -176,9 +215,38 @@ export const CalcScreen = ({ navigation }) => {
                 required: true,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
+                <Select
+                // style={styles.select}
+                label={"Air travel frequency"}
+                placeholder='Active'
+                selectedIndex={fuelEfficientVehicleOwnershipIndex}
+                onSelect={(index) => {
+                  setfuelEfficientVehicleOwnershipIndex(index);
+                  onChange(index); 
+                }}
+              >
+                <SelectItem title='Option 1' />
+                <SelectItem title='Option 2' />
+                <SelectItem title='Option 3' />
+              </Select>
+            )}
+            name="fuelEfficientVehicleOwnership"
+            />
+            {renderError('fuelEfficientVehicleOwnership')}
+          </View>
 
+
+
+          // input for Maintance frequency of vehicle (carMaintanence)
+          <View style={styles.formEntry}>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
                 <Input
-                  label="Public Transportation Usage"
+                  label="Maintance frequency of vehicle:"
                   placeholder="Enter miles"
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -186,10 +254,12 @@ export const CalcScreen = ({ navigation }) => {
                   keyboardType="numeric"
                 />
               )}
-              name="publicTransportationUsage"
+              name="carMaintanence"
             />
-            {renderError('publicTransportationUsage')}
+            {renderError('carMaintanence')}
           </View>
+          
+
 
           <Button
             onPress={handleSubmit(onSubmit)}

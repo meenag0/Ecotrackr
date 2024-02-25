@@ -9,10 +9,8 @@ export const WizardStore = new Store({
   vehicleFuelEfficiency: "",
   airTravelFrequency: "",
   publicTransportationUsage: "",
-  carpoolingFrequency: "",
   bikingWalkingFrequency: "",
   fuelEfficientVehicleOwnership: "",
-  vehicleSharingParticipation: "",
   ecoDrivingTechniquesUsage: "",
   distanceToWorkplace: "",
 

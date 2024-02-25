@@ -11,7 +11,7 @@ export const HomeScreen = ({ navigation }) => {
     navigation.navigate('Calc');
   };
 
-  const [displayName, setDisplayName] = useState('Hello');
+  const [hello, setDisplayName] = useState('Hello');
 
   const updateName = () => {
     setDisplayName('New text after input');
@@ -21,7 +21,7 @@ export const HomeScreen = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: 'lightblue' }}>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text style={{ fontSize: 34, fontWeight: 'bold', textAlign: 'center', marginBottom: 20, position: 'absolute', top: 20, left: 20 }}>
-        {displayName}!
+        {hello}!
         </Text>
 
         <Button onPress={navigateDetails}>Calculate carbon footprint.</Button>

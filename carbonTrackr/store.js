@@ -26,6 +26,11 @@ export const WizardStore = new Store({
   processedFoodConsumption: "", // Consumption of processed or packaged foods
   dairyConsumption: "", // Consumption of dairy products
   seafoodConsumption: "", // Use of plant-based alternatives
+
+  fastFashion:"",
+  sustainableShoppingFrequency:"",
+  Recycling:"",
+  
 });
 
 registerInDevtools({

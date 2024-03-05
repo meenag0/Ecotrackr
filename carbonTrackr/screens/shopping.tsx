@@ -4,6 +4,7 @@ import { IndexPath, Input, Button, Select, SelectItem, Icon, Layout, Text, TopNa
 import { useForm, Controller } from "react-hook-form";
 import { WizardStore } from "../store";
 import { useIsFocused } from "@react-navigation/native";
+import axios from 'axios';
 
 
 const BackIcon = (props) => (
@@ -42,16 +43,23 @@ export const FoodScreen = ({ navigation }) => {
       });
   }, [isFocused]);
 
-  const onSubmit = (data) => {
-    WizardStore.update((s) => {
-      s.progress = 40;
-      s.fastFashion = data.fastFashion;
-      s.sustainableShoppingFrequency = data.sustainableShoppingFrequency;
-      s.Recycling = data.Recycling;
-    });
-
-    console.log("Updated WizardStore state:", WizardStore.getRawState());
-    navigation.navigate('Home');
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post('http://127.0.0.1:8000', data);
+      console.log("Calculation Result:", response.data);
+  
+      // Update WizardStore state and navigate
+      WizardStore.update((s) => {
+        s.progress = 40;
+        s.fastFashion = data.fastFashion;
+        s.sustainableShoppingFrequency = data.sustainableShoppingFrequency;
+        s.Recycling = data.Recycling;
+      });
+      console.log("Updated WizardStore state:", WizardStore.getRawState());
+      navigation.navigate('Home');
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const dismissKeyboard = () => {

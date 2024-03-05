@@ -5,13 +5,11 @@ import { registerInDevtools, Store } from "pullstate";
 export const WizardStore = new Store({
 
   progress: 0,
-  averageWeeklyMiles: "",
-  vehicleFuelEfficiency: "",
-  airTravelFrequency: "",
-  publicTransportationUsage: "",
-  fuelEfficientVehicleOwnership: "",
-  carMaintanence: "",
-  bikingWalkingFrequency: "",
+  averageWeeklyKm: "",
+  publicTransportFreq: "",
+  airTravelHours: "",
+  carSize: "",
+  carType: "",
 
 
   electricityUsage: "", // Monthly electricity usage

@@ -59,7 +59,6 @@ export const EnergyScreen = ({ navigation }) => {
     Keyboard.dismiss();
   };
 
-  const [vehicleFuelEfficiencyIndex, setVehicleFuelEfficiencyIndex] = React.useState<IndexPath | IndexPath[]>();
   const [avgApplianceAgeIndex, setavgApplianceAgeIndex] = React.useState<IndexPath | IndexPath[]>(); 
 
   
@@ -111,37 +110,6 @@ export const EnergyScreen = ({ navigation }) => {
             />
             {renderError('electricityUsage')}
           </View>
-
-
-          // dropdown for Type of vehicle fuel (vehicleFuelEfficiency)
-          <View style={styles.formEntry}>
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Select
-                // style={styles.select}
-                label={"Type of vehicle fuel."}
-                placeholder='Active'
-                selectedIndex={vehicleFuelEfficiencyIndex}
-                onSelect={(index) => {
-                  setVehicleFuelEfficiencyIndex(index);
-                  onChange(index); 
-                }}
-              >
-                <SelectItem title='Option 1' />
-                <SelectItem title='Option 2' />
-                <SelectItem title='Option 3' />
-              </Select>
-            )}
-            name="vehicleFuelEfficiency"
-            />
-            {renderError('vehicleFuelEfficiency')}
-          </View>
-
-
 
 
           // drop down menu for Average age of appliances

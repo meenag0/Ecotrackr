@@ -47,7 +47,7 @@ export const FoodScreen = ({ navigation }) => {
       s.progress = 40;
       s.redMeatConsumption = data.redMeatConsumption;
       s.localFoodPurchases = data.localFoodPurchases;
-      s.processedFoodConsumption = data.processedFoodConsumption;
+      s.poultryConsumption = data.poultryConsumption;
       s.dairyConsumption = data.dairyConsumption;
       s.seafoodConsumption = data.seafoodConsumption;
 
@@ -62,7 +62,6 @@ export const FoodScreen = ({ navigation }) => {
   };
 
   const [localFoodPurchasesIndex, setlocalFoodPurchasesIndex] = React.useState<IndexPath | IndexPath[]>();
-  const [processedFoodConsumptionIndex, setprocessedFoodConsumptionIndex] = React.useState<IndexPath | IndexPath[]>(); 
 
   
   const renderError = (fieldName) => {
@@ -79,7 +78,7 @@ export const FoodScreen = ({ navigation }) => {
 
 
   <SafeAreaView style={{ flex: 1 }}>
-  <TopNavigation title='Transportation' alignment='center' accessoryLeft={BackAction}/>
+  <TopNavigation title='Food' alignment='center' accessoryLeft={BackAction}/>
   <Layout style={{ flex: 1 }}>
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <View style={styles.container}>
@@ -101,8 +100,8 @@ export const FoodScreen = ({ navigation }) => {
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
-                  label="Number of times red eat consumed per week"
-                  placeholder="Enter $"
+                  label="How many servings of red meat do you have per week?"
+                  placeholder="#"
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -125,7 +124,7 @@ export const FoodScreen = ({ navigation }) => {
               render={({ field: { onChange, onBlur, value } }) => (
                 <Select
                 // style={styles.select}
-                label={"Frequency of local food purchasing"}
+                label="How often do you buy produce from local sources?"
                 placeholder='Active'
                 selectedIndex={localFoodPurchasesIndex}
                 onSelect={(index) => {
@@ -133,9 +132,9 @@ export const FoodScreen = ({ navigation }) => {
                   onChange(index); 
                 }}
               >
-                <SelectItem title='Option 1' />
-                <SelectItem title='Option 2' />
-                <SelectItem title='Option 3' />
+                <SelectItem title='Rarely' />
+                <SelectItem title='Occasionally' />
+                <SelectItem title='Often' />
               </Select>
             )}
             name="localFoodPurchases"
@@ -146,7 +145,7 @@ export const FoodScreen = ({ navigation }) => {
 
 
 
-          // drop down menu for Average age of appliances
+          // input for number of meals with poultry (poultryConsumption)
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -154,24 +153,18 @@ export const FoodScreen = ({ navigation }) => {
                 required: true,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <Select
-                // style={styles.select}
-                label={"Frequency of purchasing processed food"}
-                placeholder='Active'
-                selectedIndex={processedFoodConsumptionIndex}
-                onSelect={(index) => {
-                  setprocessedFoodConsumptionIndex(index);
-                  onChange(index); 
-                }}
-              >
-                <SelectItem title='Option 1' />
-                <SelectItem title='Option 2' />
-                <SelectItem title='Option 3' />
-              </Select>
-            )}
-            name="processedFoodConsumption"
+                <Input
+                  label="How many servings of chicken do you have per week:"
+                  placeholder="Enter #"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  keyboardType="numeric"
+                />
+              )}
+              name="poultryConsumption"
             />
-            {renderError('processedFoodConsumption')}
+            {renderError('poultryConsumption')}
           </View>
 
 

@@ -47,8 +47,8 @@ export const EnergyScreen = ({ navigation }) => {
       s.progress = 40;
       s.electricityUsage = data.electricityUsage;
       s.heatingUsage = data.heatingUsage;
-      s.naturalGasUsage = data.naturalGasUsage;
-      s.avgApplianceAge = data.avgApplianceAge;
+      s.lightUseTime = data.lightUseTime;
+      s.typeElectricity = data.typeElectricity;
 
     });
     console.log("Updated WizardStore state:", WizardStore.getRawState());
@@ -59,7 +59,7 @@ export const EnergyScreen = ({ navigation }) => {
     Keyboard.dismiss();
   };
 
-  const [avgApplianceAgeIndex, setavgApplianceAgeIndex] = React.useState<IndexPath | IndexPath[]>(); 
+  const [typeElectricityIndex, settypeElectricityIndex] = React.useState<IndexPath | IndexPath[]>(); 
 
   
   const renderError = (fieldName) => {
@@ -99,7 +99,7 @@ export const EnergyScreen = ({ navigation }) => {
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
                   label="Average electricity usage"
-                  placeholder="Enter $"
+                  placeholder="Enter kWh"
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -112,7 +112,7 @@ export const EnergyScreen = ({ navigation }) => {
           </View>
 
 
-          // drop down menu for Average age of appliances
+          // drop down menu for type of electricity (typeElectricity)
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -122,28 +122,28 @@ export const EnergyScreen = ({ navigation }) => {
               render={({ field: { onChange, onBlur, value } }) => (
                 <Select
                 // style={styles.select}
-                label={"Average age of appliances"}
+                label={"What kind of electricity do you use?"}
                 placeholder='Active'
-                selectedIndex={avgApplianceAgeIndex}
+                selectedIndex={typeElectricityIndex}
                 onSelect={(index) => {
-                  setavgApplianceAgeIndex(index);
+                  settypeElectricityIndex(index);
                   onChange(index); 
                 }}
               >
-                <SelectItem title='Option 1' />
-                <SelectItem title='Option 2' />
-                <SelectItem title='Option 3' />
+                <SelectItem title='Coal' />
+                <SelectItem title='Natural gas' />
+                <SelectItem title='Petroleum' />
               </Select>
             )}
-            name="avgApplianceAge"
+            name="typeElectricity"
             />
-            {renderError('avgApplianceAge')}
+            {renderError('typeElectricity')}
           </View>
 
 
 
 
-          // input for cost of heating/ac (heatingUsage)
+          // input for natural gas usage (naturalGasUsage)
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -160,13 +160,13 @@ export const EnergyScreen = ({ navigation }) => {
                   keyboardType="numeric"
                 />
               )}
-              name="heatingUsage"
+              name="naturalGasUsage"
             />
-            {renderError('heatingUsage')}
+            {renderError('naturalGasUsage')}
           </View>
           
 
-          // input for cost of natural gas
+          // input for amount of time lights are on per day
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -175,17 +175,17 @@ export const EnergyScreen = ({ navigation }) => {
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
-                  label="Cost of natural gas used per month:"
-                  placeholder="Enter $"
+                  label="How many hours are your lights on for per day?"
+                  placeholder="Enter # of hours"
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
                   keyboardType="numeric"
                 />
               )}
-              name="naturalGasUsage"
+              name="lightUseTime"
             />
-            {renderError('naturalGasUsage')}
+            {renderError('lightUseTime')}
           </View>
 
           // next page button

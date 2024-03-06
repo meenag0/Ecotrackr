@@ -155,7 +155,7 @@ export const CalcScreen = ({ navigation }) => {
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
-                  label="How many km do you travel by car per week?"
+                  label="How many km do you travel by car on fuel per week?"
                   placeholder="# of km"
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -191,6 +191,7 @@ export const CalcScreen = ({ navigation }) => {
                 <SelectItem title='Diesel' />
                 <SelectItem title='Hybrid' />
                 <SelectItem title='Electric' />
+                <SelectItem title='None'/>
               </Select>
             )}
             name="carType"

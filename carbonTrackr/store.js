@@ -13,15 +13,15 @@ export const WizardStore = new Store({
 
 
   electricityUsage: "", // Monthly electricity usage
-  heatingUsage: "", // Home heating source
-  naturalGasUsage: "",
-  avgApplianceAge: "",
+  naturalGasUsage: "", // Home heating source
+  lightUseTime: "",
+  typeElectricity: "",
 
 
   redMeatConsumption: "", // Weekly consumption of red meat
   vegetarianVeganMeals: "", // Proportion of vegetarian or vegan meals
   localFoodPurchases: "", // Frequency of purchasing locally sourced food
-  processedFoodConsumption: "", // Consumption of processed or packaged foods
+  poultryConsumption: "", // Consumption of processed or packaged foods
   dairyConsumption: "", // Consumption of dairy products
   seafoodConsumption: "", // Use of plant-based alternatives
 

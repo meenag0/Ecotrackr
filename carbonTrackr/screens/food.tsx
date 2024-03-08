@@ -21,9 +21,7 @@ export const FoodScreen = ({ navigation }) => {
   );
 
   //navigating to energy page of form (next section)
-  const toShopping = () => {
-    navigation.navigate('Shopping');
-  };
+
 
   //
   const {
@@ -91,7 +89,7 @@ export const FoodScreen = ({ navigation }) => {
         <Layout style={{ paddingHorizontal: 16 }}>
 
 
-          // input for number of times red eat consumed per week (redMeatConsumption)
+          {/* input for number of times red eat consumed per week (redMeatConsumption) */}
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -114,7 +112,7 @@ export const FoodScreen = ({ navigation }) => {
           </View>
 
 
-          // dropdown for Type of vehicle fuel (localFoodPurchases)
+          {/* dropdown for Type of vehicle fuel (localFoodPurchases) */}
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -145,7 +143,7 @@ export const FoodScreen = ({ navigation }) => {
 
 
 
-          // input for number of meals with poultry (poultryConsumption)
+          {/* input for number of meals with poultry (poultryConsumption) */}
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -170,7 +168,7 @@ export const FoodScreen = ({ navigation }) => {
 
 
 
-          // input for Number of milk cartons bought per week (dairyConsumption)
+          {/* input for Number of milk cartons bought per week (dairyConsumption) */}
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -179,7 +177,7 @@ export const FoodScreen = ({ navigation }) => {
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
-                  label="Number of milk cartons bought per week:"
+                  label="How many litres of milk do you consume per month? "
                   placeholder="Enter #"
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -193,7 +191,7 @@ export const FoodScreen = ({ navigation }) => {
           </View>
           
           
-          // input for number of seafood meals
+          {/* input for number of seafood meals */}
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -215,7 +213,7 @@ export const FoodScreen = ({ navigation }) => {
             {renderError('seafoodConsumption')}
           </View>
 
-          // next page button
+          {/* next page button */}
           <Button
             onPress={handleSubmit(onSubmit)}
             style={styles.button}
@@ -230,26 +228,26 @@ export const FoodScreen = ({ navigation }) => {
   );
 };
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    progressBar: {
-      marginBottom: 16,
-    },
-    formEntry: {
-      marginVertical: 8,
-    },
-    errorText: {
-      marginLeft: 16,
-      color: "red",
-    },
-    button: {
-      marginVertical: 8,
-    },
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  progressBar: {
+    marginBottom: 16,
+  },
+  formEntry: {
+    marginVertical: 8,
+  },
+  errorText: {
+    marginLeft: 16,
+    color: "red",
+  },
+  button: {
+    marginVertical: 8,
+  },
 
-    select: {
-      flex: 1,
-      margin: 2,
-    },
-  });
+  select: {
+    flex: 1,
+    margin: 2,
+  },
+});

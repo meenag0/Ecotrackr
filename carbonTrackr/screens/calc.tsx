@@ -92,8 +92,7 @@ export const CalcScreen = ({ navigation }) => {
         <Layout style={{ paddingHorizontal: 16 }}>
 
 
-
-          // dropdown for frequency of public transport (publicTransportFreq)
+          {/* dropdown for frequency of public transport (publicTransportFreq) */}
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -103,7 +102,7 @@ export const CalcScreen = ({ navigation }) => {
               render={({ field: { onChange, onBlur, value } }) => (
                 <Select
                 // style={styles.select}
-                label={"How often do you use public transportation?"}
+                label="How often do you use public transportation?"
                 placeholder='Active'
                 selectedIndex={publicTransportFreqIndex}
                 onSelect={(index) => {
@@ -123,7 +122,6 @@ export const CalcScreen = ({ navigation }) => {
           </View>
 
 
-          // input field for hours of air travel(airTravelHours)
           <View style={styles.formEntry}>
           <Controller
               control={control}
@@ -145,8 +143,6 @@ export const CalcScreen = ({ navigation }) => {
             {renderError('airTravelHours')}
           </View>
 
-
-          // input for Average Weekly km Driven (averageWeeklyKm)
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -155,7 +151,7 @@ export const CalcScreen = ({ navigation }) => {
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
-                  label="How many km do you travel by car on fuel per week?"
+                  label="How many km do you travel by car (on fuel) per week?"
                   placeholder="# of km"
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -169,7 +165,6 @@ export const CalcScreen = ({ navigation }) => {
           </View>
 
 
-          // Type of car (carType)
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -179,7 +174,7 @@ export const CalcScreen = ({ navigation }) => {
               render={({ field: { onChange, onBlur, value } }) => (
                 <Select
                 // style={styles.select}
-                label={"What type of fuel does your car use?"}
+                label="What type of fuel does your car use?"
                 placeholder='Active'
                 selectedIndex={carTypeIndex}
                 onSelect={(index) => {
@@ -200,8 +195,6 @@ export const CalcScreen = ({ navigation }) => {
           </View>
 
 
-
-          // Size of car (carSize)
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -211,7 +204,7 @@ export const CalcScreen = ({ navigation }) => {
               render={({ field: { onChange, onBlur, value } }) => (
                 <Select
                 // style={styles.select}
-                label={"What type of car do you drive?"}
+                label="What type of car do you drive?"
                 placeholder='Active'
                 selectedIndex={carSizeIndex}
                 onSelect={(index) => {
@@ -244,7 +237,6 @@ export const CalcScreen = ({ navigation }) => {
 </SafeAreaView>
   );
 };
-
   const styles = StyleSheet.create({
     container: {
       flex: 1,

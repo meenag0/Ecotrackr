@@ -25,9 +25,9 @@ export const WizardStore = new Store({
   dairyConsumption: "", // Consumption of dairy products
   seafoodConsumption: "", // Use of plant-based alternatives
 
-  fastFashion:"",
-  sustainableShoppingFrequency:"",
-  Recycling:"",
+  fastFashion:0,
+  sustainableShoppingFrequency:0,
+  Recycling:0,
   
 });
 

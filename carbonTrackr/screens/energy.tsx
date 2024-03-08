@@ -21,9 +21,9 @@ export const EnergyScreen = ({ navigation }) => {
   );
 
   //navigating to energy page of form (next section)
-  const toFood = () => {
-    navigation.navigate('Food');
-  };
+  // const toFood = () => {
+  //   navigation.navigate('Food');
+  // };
 
   //
   const {
@@ -46,13 +46,13 @@ export const EnergyScreen = ({ navigation }) => {
     WizardStore.update((s) => {
       s.progress = 40;
       s.electricityUsage = data.electricityUsage;
-      s.heatingUsage = data.heatingUsage;
+      s.naturalGasUsage = data.naturalGasUsage;
       s.lightUseTime = data.lightUseTime;
       s.typeElectricity = data.typeElectricity;
 
     });
     console.log("Updated WizardStore state:", WizardStore.getRawState());
-    navigation.navigate('Energy');
+    navigation.navigate('Food');
   };
 
   const dismissKeyboard = () => {
@@ -89,7 +89,7 @@ export const EnergyScreen = ({ navigation }) => {
         <Layout style={{ paddingHorizontal: 16 }}>
 
 
-          // input for avg electricityUsage (electricityUsage)
+          {/* input for avg electricityUsage (electricityUsage) */}
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -98,7 +98,7 @@ export const EnergyScreen = ({ navigation }) => {
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
-                  label="Average electricity usage"
+                  label="How much electricity do you use per month?"
                   placeholder="Enter kWh"
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -112,7 +112,7 @@ export const EnergyScreen = ({ navigation }) => {
           </View>
 
 
-          // drop down menu for type of electricity (typeElectricity)
+          {/* drop down menu for type of electricity (typeElectricity) */}
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -122,7 +122,7 @@ export const EnergyScreen = ({ navigation }) => {
               render={({ field: { onChange, onBlur, value } }) => (
                 <Select
                 // style={styles.select}
-                label={"What kind of electricity do you use?"}
+                label={"What source of electricity do you use?"}
                 placeholder='Active'
                 selectedIndex={typeElectricityIndex}
                 onSelect={(index) => {
@@ -143,7 +143,7 @@ export const EnergyScreen = ({ navigation }) => {
 
 
 
-          // input for natural gas usage (naturalGasUsage)
+          {/* input for natural gas usage (naturalGasUsage) */}
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -152,7 +152,7 @@ export const EnergyScreen = ({ navigation }) => {
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
-                  label="Cost of heating/AC systems/month:"
+                  label="How much natural gas do you use per month?"
                   placeholder="Enter $"
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -166,7 +166,7 @@ export const EnergyScreen = ({ navigation }) => {
           </View>
           
 
-          // input for amount of time lights are on per day
+          {/* input for amount of time lights are on per day */}
           <View style={styles.formEntry}>
             <Controller
               control={control}
@@ -188,7 +188,7 @@ export const EnergyScreen = ({ navigation }) => {
             {renderError('lightUseTime')}
           </View>
 
-          // next page button
+          {/* next page button */}
           <Button
             onPress={handleSubmit(onSubmit)}
             style={styles.button}

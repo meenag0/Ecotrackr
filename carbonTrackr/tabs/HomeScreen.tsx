@@ -5,7 +5,7 @@ import { Text, Button, Divider, Layout, TopNavigation } from '@ui-kitten/compone
 import { useNavigation } from '@react-navigation/native';
 import { CalcScreen } from '../screens/calc';
 
-export const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation }) => {
 
   const navigateDetails = () => {
     navigation.navigate('Calc');
@@ -30,3 +30,4 @@ export const HomeScreen = ({ navigation }) => {
   );
 };
 
+export default HomeScreen

@@ -134,7 +134,6 @@ export const CalcScreen = ({ navigation }) => {
                   placeholder="# of hours"
                   onBlur={onBlur}
                   onChangeText={onChange}
-                  value={value}
                   keyboardType="numeric"
                 />
               )}
@@ -155,7 +154,6 @@ export const CalcScreen = ({ navigation }) => {
                   placeholder="# of km"
                   onBlur={onBlur}
                   onChangeText={onChange}
-                  value={value}
                   keyboardType="numeric"
                 />
               )}

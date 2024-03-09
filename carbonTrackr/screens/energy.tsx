@@ -102,7 +102,6 @@ export const EnergyScreen = ({ navigation }) => {
                   placeholder="Enter kWh"
                   onBlur={onBlur}
                   onChangeText={onChange}
-                  value={value}
                   keyboardType="numeric"
                 />
               )}
@@ -156,7 +155,6 @@ export const EnergyScreen = ({ navigation }) => {
                   placeholder="Enter $"
                   onBlur={onBlur}
                   onChangeText={onChange}
-                  value={value}
                   keyboardType="numeric"
                 />
               )}
@@ -179,7 +177,6 @@ export const EnergyScreen = ({ navigation }) => {
                   placeholder="Enter # of hours"
                   onBlur={onBlur}
                   onChangeText={onChange}
-                  value={value}
                   keyboardType="numeric"
                 />
               )}

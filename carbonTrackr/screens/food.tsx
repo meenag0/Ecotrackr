@@ -20,8 +20,10 @@ export const FoodScreen = ({ navigation }) => {
     <TopNavigationAction icon={BackIcon} onPress={navigateBack}/>
   );
 
-  //navigating to energy page of form (next section)
-
+  // navigating to energy page of form (next section)
+  const toShopping = () => {
+    navigation.navigate('Shopping');
+  };
 
   //
   const {
@@ -48,8 +50,6 @@ export const FoodScreen = ({ navigation }) => {
       s.poultryConsumption = data.poultryConsumption;
       s.dairyConsumption = data.dairyConsumption;
       s.seafoodConsumption = data.seafoodConsumption;
-
-
     });
     console.log("Updated WizardStore state:", WizardStore.getRawState());
     navigation.navigate('Shopping');
@@ -61,7 +61,6 @@ export const FoodScreen = ({ navigation }) => {
 
   const [localFoodPurchasesIndex, setlocalFoodPurchasesIndex] = React.useState<IndexPath | IndexPath[]>();
 
-  
   const renderError = (fieldName) => {
     if (errors[fieldName]) {
       return (
@@ -72,159 +71,141 @@ export const FoodScreen = ({ navigation }) => {
     }
     return null;
   };
+
   return (
-
-
-  <SafeAreaView style={{ flex: 1 }}>
-  <TopNavigation title='Food' alignment='center' accessoryLeft={BackAction}/>
-  <Layout style={{ flex: 1 }}>
-    <TouchableWithoutFeedback onPress={dismissKeyboard}>
-      <View style={styles.container}>
-
-        <ProgressBar
-          style={styles.progressBar}
-          progress={WizardStore.getRawState().progress}
-        />
-        
-        <Layout style={{ paddingHorizontal: 16 }}>
-
-
-          {/* input for number of times red eat consumed per week (redMeatConsumption) */}
-          <View style={styles.formEntry}>
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  label="How many servings of red meat do you have per week?"
-                  placeholder="#"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  keyboardType="numeric"
-                />
-              )}
-              name="redMeatConsumption"
+    <SafeAreaView style={{ flex: 1 }}>
+      <TopNavigation title='Food' alignment='center' accessoryLeft={BackAction}/>
+      <Layout style={{ flex: 1 }}>
+        <TouchableWithoutFeedback onPress={dismissKeyboard}>
+          <View style={styles.container}>
+            <ProgressBar
+              style={styles.progressBar}
+              progress={WizardStore.getRawState().progress}
             />
-            {renderError('redMeatConsumption')}
-          </View>
+            <Layout style={{ paddingHorizontal: 16 }}>
+              {/* input for number of times red meat consumed per week (redMeatConsumption) */}
+              <View style={styles.formEntry}>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Input
+                      label="How many servings of red meat do you have per week?"
+                      placeholder="#"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      keyboardType="numeric"
+                    />
+                  )}
+                  name="redMeatConsumption"
+                />
+                {renderError('redMeatConsumption')}
+              </View>
 
+              {/* dropdown for type of vehicle fuel (localFoodPurchases) */}
+              <View style={styles.formEntry}>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Select
+                      label="How often do you buy produce from local sources?"
+                      placeholder='Active'
+                      selectedIndex={localFoodPurchasesIndex}
+                      onSelect={(index) => {
+                        setlocalFoodPurchasesIndex(index);
+                        onChange(index); 
+                      }}
+                    >
+                      <SelectItem title='Rarely' />
+                      <SelectItem title='Occasionally' />
+                      <SelectItem title='Often' />
+                    </Select>
+                  )}
+                  name="localFoodPurchases"
+                />
+                {renderError('localFoodPurchases')}
+              </View>
 
-          {/* dropdown for Type of vehicle fuel (localFoodPurchases) */}
-          <View style={styles.formEntry}>
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Select
-                // style={styles.select}
-                label="How often do you buy produce from local sources?"
-                placeholder='Active'
-                selectedIndex={localFoodPurchasesIndex}
-                onSelect={(index) => {
-                  setlocalFoodPurchasesIndex(index);
-                  onChange(index); 
-                }}
+              {/* input for number of meals with poultry (poultryConsumption) */}
+              <View style={styles.formEntry}>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Input
+                      label="How many servings of chicken do you have per week:"
+                      placeholder="Enter #"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      keyboardType="numeric"
+                    />
+                  )}
+                  name="poultryConsumption"
+                />
+                {renderError('poultryConsumption')}
+              </View>
+
+              {/* input for number of milk cartons bought per week (dairyConsumption) */}
+              <View style={styles.formEntry}>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Input
+                      label="How many litres of milk do you consume per month? "
+                      placeholder="Enter #"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      keyboardType="numeric"
+                    />
+                  )}
+                  name="dairyConsumption"
+                />
+                {renderError('dairyConsumption')}
+              </View>
+
+              {/* input for number of seafood meals */}
+              <View style={styles.formEntry}>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Input
+                      label="Number of seafood meals:"
+                      placeholder="Enter $"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      keyboardType="numeric"
+                    />
+                  )}
+                  name="seafoodConsumption"
+                />
+                {renderError('seafoodConsumption')}
+              </View>
+
+              {/* next page button */}
+              <Button
+                onPress={handleSubmit(onSubmit)}
+                style={styles.button}
               >
-                <SelectItem title='Rarely' />
-                <SelectItem title='Occasionally' />
-                <SelectItem title='Often' />
-              </Select>
-            )}
-            name="localFoodPurchases"
-            />
-            {renderError('localFoodPurchases')}
+                GOTO STEP TWO
+              </Button>
+            </Layout>
           </View>
-
-
-
-
-          {/* input for number of meals with poultry (poultryConsumption) */}
-          <View style={styles.formEntry}>
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  label="How many servings of chicken do you have per week:"
-                  placeholder="Enter #"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  keyboardType="numeric"
-                />
-              )}
-              name="poultryConsumption"
-            />
-            {renderError('poultryConsumption')}
-          </View>
-
-
-
-
-          {/* input for Number of milk cartons bought per week (dairyConsumption) */}
-          <View style={styles.formEntry}>
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  label="How many litres of milk do you consume per month? "
-                  placeholder="Enter #"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  keyboardType="numeric"
-                />
-              )}
-              name="dairyConsumption"
-            />
-            {renderError('dairyConsumption')}
-          </View>
-          
-          
-          {/* input for number of seafood meals */}
-          <View style={styles.formEntry}>
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  label="Number of seafood meals:"
-                  placeholder="Enter $"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  keyboardType="numeric"
-                />
-              )}
-              name="seafoodConsumption"
-            />
-            {renderError('seafoodConsumption')}
-          </View>
-
-          {/* next page button */}
-          <Button
-            onPress={handleSubmit(onSubmit)}
-            style={styles.button}
-          >
-            GOTO STEP TWO
-          </Button>
-        </Layout>
-      </View>
-    </TouchableWithoutFeedback>
-  </Layout>
-</SafeAreaView>
+        </TouchableWithoutFeedback>
+      </Layout>
+    </SafeAreaView>
   );
 };
 
@@ -244,10 +225,5 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: 8,
-  },
-
-  select: {
-    flex: 1,
-    margin: 2,
   },
 });

@@ -5,7 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { WizardStore } from "../store";
 import { useIsFocused } from "@react-navigation/native";
 import axios from 'axios';
-import { HomeScreen } from "../tabs/HomeScreen";
+import HomeScreen from "../tabs/HomeScreen";
 
 const BackIcon = (props) => (
   <Icon {...props} name='arrow-back' />
@@ -17,6 +17,7 @@ export const ShoppingScreen = ({ navigation }) => {
   const navigateBack = () => {
     navigation.goBack();
   };
+  
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack}/>
   );
@@ -41,11 +42,10 @@ export const ShoppingScreen = ({ navigation }) => {
       });
   }, [isFocused]);
 
-  const onSubmit = async (data) => {
 
-      const response = await axios.post('http://127.0.0.1:8000', data);
-      console.log("Calculation Result:", response.data);
-  
+  const onSubmit = async (data) => {
+    try {
+      await axios.post('http://10.0.0.192:8000', data);
       // Update WizardStore state and navigate
       WizardStore.update((s) => {
         s.progress = 40;
@@ -55,8 +55,11 @@ export const ShoppingScreen = ({ navigation }) => {
       });
       console.log("Updated WizardStore state:", WizardStore.getRawState());
       navigation.navigate('Home');
-    }; 
-
+    } catch (error) {
+      console.error('Error submitting data:', error);
+      // Handle error (e.g., show error message to user)
+    }
+  };
  
 
   const dismissKeyboard = () => {
@@ -79,6 +82,7 @@ export const ShoppingScreen = ({ navigation }) => {
     }
     return null;
   };
+
   return (
 
 
@@ -97,18 +101,18 @@ export const ShoppingScreen = ({ navigation }) => {
 
 
 
-          // dropdown for Frequency of fastFashion shopping (fastFashionIndex)
-          <View style={styles.formEntry}>
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Select
+        {/* dropdown for Frequency of fastFashion shopping (fastFashionIndex) */}
+        <View style={styles.formEntry}>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Select
                 // style={styles.select}
                 label={"How often do you shop from fast fashion?"}
-                placeholder='Activecl'
+                placeholder='Active'
                 selectedIndex={fastFashionIndex}
                 onSelect={(index) => {
                   setFastFashionIndex(index);
@@ -121,22 +125,19 @@ export const ShoppingScreen = ({ navigation }) => {
               </Select>
             )}
             name="fastFashion"
-            />
-            {renderError('fastFashion')}
-          </View>
+          />
+          {renderError('fastFashion')}
+        </View>
 
-
-
-
-          // drop down menu for Average age of appliances
-          <View style={styles.formEntry}>
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Select
+        {/* drop down menu for Average age of appliances */}
+        <View style={styles.formEntry}>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Select
                 // style={styles.select}
                 label={"How often do you shop sustainably?"}
                 placeholder='Active'
@@ -152,21 +153,19 @@ export const ShoppingScreen = ({ navigation }) => {
               </Select>
             )}
             name="sustainableShoppingFrequency"
-            />
-            {renderError('sustainableShoppingFrequency')}
-          </View>
+          />
+          {renderError('sustainableShoppingFrequency')}
+        </View>
 
-
-          
-          // drop down menu for Average age of appliances
-          <View style={styles.formEntry}>
-            <Controller
-              control={control}
-              rules={{
-                required: true, 
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Select
+        {/* drop down menu for Average age of appliances */}
+        <View style={styles.formEntry}>
+          <Controller
+            control={control}
+            rules={{
+              required: true, 
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Select
                 // style={styles.select}
                 label={"How often do you recycle?"}
                 placeholder='Active'
@@ -182,18 +181,20 @@ export const ShoppingScreen = ({ navigation }) => {
               </Select>
             )}
             name="Recycling"
-            />
-            {renderError('Recycling')}
-          </View>
+          />
+          {renderError('Recycling')}
+        </View>
 
 
-          // next page button
-          <Button
-            onPress={handleSubmit(onSubmit)}
-            style={styles.button}
-          >
-            GOTO STEP TWO
-          </Button>
+
+    {/* next page button */}
+    <Button
+      onPress={handleSubmit(onSubmit)}
+      style={styles.button}
+    >
+      GOTO STEP TWO
+    </Button>
+              
         </Layout>
       </View>
     </TouchableWithoutFeedback>

@@ -13,7 +13,7 @@ import { CalcScreen } from './screens/calc';
 import { EnergyScreen } from './screens/energy';
 import { FoodScreen } from './screens/food';
 import { ShoppingScreen } from './screens/shopping';
-
+import HomeScreen from './tabs/HomeScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -27,7 +27,7 @@ const MainTabNavigator = () => (
     }}>
     <Tab.Screen
       name="Home"
-      component={AppNavigator}
+      component={HomeScreen}
       options={{
         tabBarLabel: 'Home',
         tabBarIcon: () => <Ionicons name={'home'} size={20} />,

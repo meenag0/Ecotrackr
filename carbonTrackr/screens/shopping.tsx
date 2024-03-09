@@ -43,22 +43,29 @@ export const ShoppingScreen = ({ navigation }) => {
   }, [isFocused]);
 
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
     try {
-      await axios.post('http://10.0.0.192:8000', data);
-      // Update WizardStore state and navigate
+      // Update WizardStore state locally
       WizardStore.update((s) => {
         s.progress = 40;
         s.fastFashion = data.fastFashion;
         s.sustainableShoppingFrequency = data.sustainableShoppingFrequency;
         s.Recycling = data.Recycling;
       });
+
       console.log("Updated WizardStore state:", WizardStore.getRawState());
+
+      // Send the updated WizardStore data to the backend
+      axios.post('http://10.0.0.192:8081', WizardStore.getRawState());
+      console.log("WizardStore data sent to the backend successfully");
+
+      // Navigate to the 'Home' screen
       navigation.navigate('Home');
     } catch (error) {
-      console.error('Error submitting data:', error);
-      // Handle error (e.g., show error message to user)
+      console.error('Error submitting WizardStore data to backend:', error);
+      // Handle error (e.g., display an error message to the user)
     }
+
   };
  
 

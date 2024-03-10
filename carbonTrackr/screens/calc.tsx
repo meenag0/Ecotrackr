@@ -60,9 +60,9 @@ export const CalcScreen = ({ navigation }) => {
     Keyboard.dismiss();
   };
 
-  const [publicTransportFreqIndex, setpublicTransportFreqIndex] = React.useState<IndexPath | IndexPath[]>();
-  const [carSizeIndex, setcarSizeIndex] = React.useState<IndexPath | IndexPath[]>();
-  const [carTypeIndex, setCarTypeIndex] = React.useState<IndexPath | IndexPath[]>();
+  const [publicTransportFreqIndex, setpublicTransportFreqIndex] = React.useState<IndexPath>();
+  const [carSizeIndex, setcarSizeIndex] = React.useState<IndexPath>();
+  const [carTypeIndex, setCarTypeIndex] = React.useState<IndexPath>();
 
   
   const renderError = (fieldName) => {
@@ -106,7 +106,7 @@ export const CalcScreen = ({ navigation }) => {
                 placeholder='Active'
                 selectedIndex={publicTransportFreqIndex}
                 onSelect={(index) => {
-                  setpublicTransportFreqIndex(index);
+                  setpublicTransportFreqIndex(index as IndexPath);
                   onChange(index); 
                 }}
               >
@@ -176,7 +176,7 @@ export const CalcScreen = ({ navigation }) => {
                 placeholder='Active'
                 selectedIndex={carTypeIndex}
                 onSelect={(index) => {
-                  setCarTypeIndex(index);
+                  setCarTypeIndex(index as IndexPath);
                   onChange(index); 
                 }}
               >
@@ -206,7 +206,7 @@ export const CalcScreen = ({ navigation }) => {
                 placeholder='Active'
                 selectedIndex={carSizeIndex}
                 onSelect={(index) => {
-                  setcarSizeIndex(index);
+                  setcarSizeIndex(index as IndexPath);
                   onChange(index); 
                 }}
               >

@@ -59,7 +59,7 @@ export const EnergyScreen = ({ navigation }) => {
     Keyboard.dismiss();
   };
 
-  const [typeElectricityIndex, settypeElectricityIndex] = React.useState<IndexPath | IndexPath[]>(); 
+  const [typeElectricityIndex, settypeElectricityIndex] = React.useState<IndexPath>(); 
 
   
   const renderError = (fieldName) => {
@@ -125,7 +125,7 @@ export const EnergyScreen = ({ navigation }) => {
                 placeholder='Active'
                 selectedIndex={typeElectricityIndex}
                 onSelect={(index) => {
-                  settypeElectricityIndex(index);
+                  settypeElectricityIndex(index as IndexPath);
                   onChange(index); 
                 }}
               >

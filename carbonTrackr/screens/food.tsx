@@ -59,7 +59,7 @@ export const FoodScreen = ({ navigation }) => {
     Keyboard.dismiss();
   };
 
-  const [localFoodPurchasesIndex, setlocalFoodPurchasesIndex] = React.useState<IndexPath | IndexPath[]>();
+  const [localFoodPurchasesIndex, setlocalFoodPurchasesIndex] = React.useState<IndexPath>();
 
   const renderError = (fieldName) => {
     if (errors[fieldName]) {
@@ -117,7 +117,7 @@ export const FoodScreen = ({ navigation }) => {
                       placeholder='Active'
                       selectedIndex={localFoodPurchasesIndex}
                       onSelect={(index) => {
-                        setlocalFoodPurchasesIndex(index);
+                        setlocalFoodPurchasesIndex(index as IndexPath);
                         onChange(index); 
                       }}
                     >

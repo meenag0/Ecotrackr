@@ -48,25 +48,33 @@ export const ShoppingScreen = ({ navigation }) => {
       // Update WizardStore state locally
       WizardStore.update((s) => {
         s.progress = 40;
-        s.fastFashion = data.fastFashion;
-        s.sustainableShoppingFrequency = data.sustainableShoppingFrequency;
-        s.Recycling = data.Recycling;
+        s.fastFashion = fastFashionIndexValue;
+        s.sustainableShoppingFrequency = sustainableShoppingFrequencyIndexValue;
+        s.Recycling = recyclingIndexValue;
       });
-
-      console.log("Updated WizardStore state:", WizardStore.getRawState());
-
+  
+      // Extract index values
+      const fastFashionIndexValue = fastFashionIndex.row;
+      const sustainableShoppingFrequencyIndexValue = sustainableShoppingFrequencyIndex instanceof IndexPath ? sustainableShoppingFrequencyIndex.row : null;
+      const recyclingIndexValue = RecyclingIndex instanceof IndexPath ? RecyclingIndex.row : null;
+      
+      // Log the index values
+      console.log("Fast Fashion Index:", fastFashionIndexValue);
+      console.log("Sustainable Shopping Frequency Index:", sustainableShoppingFrequencyIndexValue);
+      console.log("Recycling Index:", recyclingIndexValue);
+  
       // Send the updated WizardStore data to the backend
       axios.post('http://10.0.0.192:8081', WizardStore.getRawState());
       console.log("WizardStore data sent to the backend successfully");
-
+  
       // Navigate to the 'Home' screen
       navigation.navigate('Home');
     } catch (error) {
       console.error('Error submitting WizardStore data to backend:', error);
       // Handle error (e.g., display an error message to the user)
     }
-
   };
+  
  
 
   const dismissKeyboard = () => {
@@ -74,9 +82,9 @@ export const ShoppingScreen = ({ navigation }) => {
   };
 
   
-  const [fastFashionIndex, setFastFashionIndex] = React.useState<IndexPath | IndexPath[]>();
-  const [sustainableShoppingFrequencyIndex, setSustainableShoppingFrequencyIndex] = React.useState<IndexPath | IndexPath[]>(); 
-  const [RecyclingIndex, setRecyclingIndex] = React.useState<IndexPath | IndexPath[]>(); 
+  const [fastFashionIndex, setFastFashionIndex] = React.useState<IndexPath>();
+  const [sustainableShoppingFrequencyIndex, setSustainableShoppingFrequencyIndex] = React.useState<IndexPath >(); 
+  const [RecyclingIndex, setRecyclingIndex] = React.useState<IndexPath>(); 
 
   
   const renderError = (fieldName) => {
@@ -122,7 +130,7 @@ export const ShoppingScreen = ({ navigation }) => {
                 placeholder='Active'
                 selectedIndex={fastFashionIndex}
                 onSelect={(index) => {
-                  setFastFashionIndex(index);
+                  setFastFashionIndex(index as IndexPath);
                   onChange(index); 
                 }}
               >
@@ -150,12 +158,12 @@ export const ShoppingScreen = ({ navigation }) => {
                 placeholder='Active'
                 selectedIndex={sustainableShoppingFrequencyIndex}
                 onSelect={(index) => {
-                  setSustainableShoppingFrequencyIndex(index);
+                  setSustainableShoppingFrequencyIndex(index as IndexPath);
                   onChange(index); 
                 }}
               >
                 <SelectItem title='Rarely' />
-                <SelectItem title='Ocassionally 2' />
+                <SelectItem title='Ocassionally' />
                 <SelectItem title='Often' />
               </Select>
             )}
@@ -178,7 +186,7 @@ export const ShoppingScreen = ({ navigation }) => {
                 placeholder='Active'
                 selectedIndex={RecyclingIndex}
                 onSelect={(index) => {
-                  setRecyclingIndex(index);
+                  setRecyclingIndex(index as IndexPath);
                   onChange(index); 
                 }}
               >

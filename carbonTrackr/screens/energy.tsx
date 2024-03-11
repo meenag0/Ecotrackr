@@ -4,10 +4,11 @@ import { IndexPath, Input, Button, Select, SelectItem, Icon, Layout, Text, TopNa
 import { useForm, Controller } from "react-hook-form";
 import { WizardStore } from "../store";
 import { useIsFocused } from "@react-navigation/native";
+import { Ionicons } from '@expo/vector-icons';
 
 
 const BackIcon = (props) => (
-  <Icon {...props} name='arrow-back' />
+  <Ionicons {...props} name='arrow-back' />
 );
 
 export const EnergyScreen = ({ navigation }) => {
@@ -43,17 +44,27 @@ export const EnergyScreen = ({ navigation }) => {
   }, [isFocused]);
 
   const onSubmit = (data) => {
-    WizardStore.update((s) => {
-      s.progress = 40;
-      s.electricityUsage = data.electricityUsage;
-      s.naturalGasUsage = data.naturalGasUsage;
-      s.lightUseTime = data.lightUseTime;
-      s.typeElectricity = data.typeElectricity;
+    try {
 
-    });
-    console.log("Updated WizardStore state:", WizardStore.getRawState());
-    navigation.navigate('Food');
+      // Update WizardStore state locally
+      WizardStore.update((s) => {
+        s.progress = 40;
+        s.electricityUsage = data.electricityUsage;
+        s.typeElectricity = typeElectricityIndex.row;
+        s.naturalGasUsage = data.naturalGasUsage;
+        s.lightUseTime = data.lightUseTime;
+      });
+  
+      console.log("Updated WizardStore state:", WizardStore.getRawState());
+  
+      // Navigate to the 'Food' screen
+      navigation.navigate('Food');
+    } catch (error) {
+      console.error('Error updating WizardStore state or navigating to the Food screen:', error);
+      // Handle error 
+    }
   };
+  
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -123,6 +134,7 @@ export const EnergyScreen = ({ navigation }) => {
                 // style={styles.select}
                 label={"What source of electricity do you use?"}
                 placeholder='Active'
+                onBlur={onBlur}
                 selectedIndex={typeElectricityIndex}
                 onSelect={(index) => {
                   settypeElectricityIndex(index as IndexPath);

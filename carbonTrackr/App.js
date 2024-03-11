@@ -8,7 +8,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { AppNavigator } from './navStack';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { CalcScreen } from './screens/calc';
 import { EnergyScreen } from './screens/energy';
 import { FoodScreen } from './screens/food';
@@ -62,7 +61,6 @@ const MainTabNavigator = () => (
 
 export default () => (
   <>
-    <IconRegistry icons={EvaIconsPack} />
     <ApplicationProvider {...eva} theme={{ ...eva.dark }}>
       <NavigationContainer>
         <Stack.Navigator headerMode="none">

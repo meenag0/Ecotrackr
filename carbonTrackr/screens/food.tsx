@@ -4,10 +4,11 @@ import { IndexPath, Input, Button, Select, SelectItem, Icon, Layout, Text, TopNa
 import { useForm, Controller } from "react-hook-form";
 import { WizardStore } from "../store";
 import { useIsFocused } from "@react-navigation/native";
+import { Ionicons } from '@expo/vector-icons';
 
 
 const BackIcon = (props) => (
-  <Icon {...props} name='arrow-back' />
+  <Ionicons {...props} name='arrow-back' />
 );
 
 export const FoodScreen = ({ navigation }) => {
@@ -20,10 +21,6 @@ export const FoodScreen = ({ navigation }) => {
     <TopNavigationAction icon={BackIcon} onPress={navigateBack}/>
   );
 
-  // navigating to energy page of form (next section)
-  const toShopping = () => {
-    navigation.navigate('Shopping');
-  };
 
   //
   const {
@@ -43,17 +40,27 @@ export const FoodScreen = ({ navigation }) => {
   }, [isFocused]);
 
   const onSubmit = (data) => {
-    WizardStore.update((s) => {
-      s.progress = 40;
-      s.redMeatConsumption = data.redMeatConsumption;
-      s.localFoodPurchases = data.localFoodPurchases;
-      s.poultryConsumption = data.poultryConsumption;
-      s.dairyConsumption = data.dairyConsumption;
-      s.seafoodConsumption = data.seafoodConsumption;
-    });
-    console.log("Updated WizardStore state:", WizardStore.getRawState());
-    navigation.navigate('Shopping');
-  };
+    try{
+      // Update WizardStore state locally
+      WizardStore.update((s) => {
+        s.progress = 40;
+        s.redMeatConsumption = data.redMeatConsumption;
+        s.localFoodPurchases = localFoodPurchasesIndex.row;
+        s.poultryConsumption = data.poultryConsumption;
+        s.dairyConsumption = data.dairyConsumption;
+        s.seafoodConsumption = data.seafoodConsumption;
+      });
+  
+      console.log("Fast Fashion Index:", localFoodPurchasesIndex.row);
+
+      // Navigate to the 'Shopping' screen
+      navigation.navigate('Shopping');
+      } catch (error) {
+      console.error('Error updating WizardStore state or navigating to the Shopping screen:', error);
+      // Handle error 
+    }};
+
+
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -115,6 +122,7 @@ export const FoodScreen = ({ navigation }) => {
                     <Select
                       label="How often do you buy produce from local sources?"
                       placeholder='Active'
+                      onBlur={onBlur}
                       selectedIndex={localFoodPurchasesIndex}
                       onSelect={(index) => {
                         setlocalFoodPurchasesIndex(index as IndexPath);

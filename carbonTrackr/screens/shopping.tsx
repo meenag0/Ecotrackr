@@ -6,9 +6,10 @@ import { WizardStore } from "../store";
 import { useIsFocused } from "@react-navigation/native";
 import axios from 'axios';
 import HomeScreen from "../tabs/HomeScreen";
+import { Ionicons } from '@expo/vector-icons';
 
 const BackIcon = (props) => (
-  <Icon {...props} name='arrow-back' />
+  <Ionicons {...props} name='arrow-back' />
 );
 
 export const ShoppingScreen = ({ navigation }) => {
@@ -45,23 +46,18 @@ export const ShoppingScreen = ({ navigation }) => {
 
   const onSubmit = (data) => {
     try {
-      // Update WizardStore state locally
+      // Update WizardStore state with selected indexes
       WizardStore.update((s) => {
         s.progress = 40;
-        s.fastFashion = fastFashionIndexValue;
-        s.sustainableShoppingFrequency = sustainableShoppingFrequencyIndexValue;
-        s.Recycling = recyclingIndexValue;
+        s.fastFashion = fastFashionIndex.row;
+        s.sustainableShoppingFrequency = sustainableShoppingFrequencyIndex.row;
+        s.Recycling = RecyclingIndex.row;
       });
   
-      // Extract index values
-      const fastFashionIndexValue = fastFashionIndex.row;
-      const sustainableShoppingFrequencyIndexValue = sustainableShoppingFrequencyIndex instanceof IndexPath ? sustainableShoppingFrequencyIndex.row : null;
-      const recyclingIndexValue = RecyclingIndex instanceof IndexPath ? RecyclingIndex.row : null;
-      
       // Log the index values
-      console.log("Fast Fashion Index:", fastFashionIndexValue);
-      console.log("Sustainable Shopping Frequency Index:", sustainableShoppingFrequencyIndexValue);
-      console.log("Recycling Index:", recyclingIndexValue);
+      console.log("Fast Fashion Index:", fastFashionIndex.row);
+      console.log("Sustainable Shopping Frequency Index:", sustainableShoppingFrequencyIndex.row);
+      console.log("Recycling Index:", RecyclingIndex.row);
   
       // Send the updated WizardStore data to the backend
       axios.post('http://10.0.0.192:8081', WizardStore.getRawState());
@@ -74,6 +70,7 @@ export const ShoppingScreen = ({ navigation }) => {
       // Handle error (e.g., display an error message to the user)
     }
   };
+  
   
  
 
@@ -128,6 +125,7 @@ export const ShoppingScreen = ({ navigation }) => {
                 // style={styles.select}
                 label={"How often do you shop from fast fashion?"}
                 placeholder='Active'
+                onBlur={onBlur}
                 selectedIndex={fastFashionIndex}
                 onSelect={(index) => {
                   setFastFashionIndex(index as IndexPath);
@@ -156,6 +154,7 @@ export const ShoppingScreen = ({ navigation }) => {
                 // style={styles.select}
                 label={"How often do you shop sustainably?"}
                 placeholder='Active'
+                onBlur={onBlur}
                 selectedIndex={sustainableShoppingFrequencyIndex}
                 onSelect={(index) => {
                   setSustainableShoppingFrequencyIndex(index as IndexPath);
@@ -184,6 +183,7 @@ export const ShoppingScreen = ({ navigation }) => {
                 // style={styles.select}
                 label={"How often do you recycle?"}
                 placeholder='Active'
+                onBlur={onBlur}
                 selectedIndex={RecyclingIndex}
                 onSelect={(index) => {
                   setRecyclingIndex(index as IndexPath);

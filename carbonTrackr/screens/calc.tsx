@@ -1,70 +1,74 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, SafeAreaView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { IndexPath, Input, Button, Select, SelectItem, Icon, Layout, Text, TopNavigation, TopNavigationAction, ProgressBar } from '@ui-kitten/components';
 import { useForm, Controller } from "react-hook-form";
 import { WizardStore } from "../store";
 import { useIsFocused } from "@react-navigation/native";
+import { Ionicons } from '@expo/vector-icons';
+
 
 
 const BackIcon = (props) => (
-  <Icon {...props} name='arrow-back' />
+  <Ionicons {...props} name='arrow-back' />
 );
 
 export const CalcScreen = ({ navigation }) => {
 
-  // click on back arrow button, go to last page
   const navigateBack = () => {
     navigation.goBack();
   };
+  
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack}/>
   );
-
-  //navigating to energy page of form (next section)
-  const toEnergy = () => {
-    navigation.navigate('Energy');
-  };
-
   
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({ defaultValues: WizardStore.useState((s) => s) 
-  });
+  } = useForm({ defaultValues: WizardStore.useState((s) => s) });
 
   const isFocused = useIsFocused();
   useEffect(() => {
     isFocused &&
       WizardStore.update((s) => {
         s.progress = 0;
-        
       });
   }, [isFocused]);
 
-  const onSubmit = (data) => {
+  
+const onSubmit = (data) => {
+  try {
+
+    // Update WizardStore state locally
     WizardStore.update((s) => {
       s.progress = 20;
       s.averageWeeklyKm = data.averageWeeklyKm;
-      s.publicTransportFreq = data.publicTransportFreq;
+      s.publicTransportFreq = publicTransportFreqIndex.row;
       s.airTravelHours = data.airTravelHours;
-      s.carSize = data.carSize;
-      s.carType = data.CarType;
+      s.carSize = carSizeIndex.row;
+      s.carType = carTypeIndex.row;
     });
-    
-    console.log("Updated WizardStore state:", WizardStore.getRawState());
-    navigation.navigate('Energy');
-  };
 
+    // Navigate to the 'Energy' screen
+    navigation.navigate('Energy');
+  } catch (error) {
+    console.error('Error updating WizardStore state or navigating to the Energy screen:', error);
+    // Handle error 
+  }
+};
+
+
+  
   const dismissKeyboard = () => {
     Keyboard.dismiss();
   };
 
-  const [publicTransportFreqIndex, setpublicTransportFreqIndex] = React.useState<IndexPath>();
-  const [carSizeIndex, setcarSizeIndex] = React.useState<IndexPath>();
-  const [carTypeIndex, setCarTypeIndex] = React.useState<IndexPath>();
+  const [publicTransportFreqIndex, setPublicTransportFreqIndex] = useState<IndexPath>();
+  const [carSizeIndex, setCarSizeIndex] = useState<IndexPath>();
+  const [carTypeIndex, setCarTypeIndex] = useState<IndexPath>();
 
-  
+
   const renderError = (fieldName) => {
     if (errors[fieldName]) {
       return (
@@ -75,8 +79,8 @@ export const CalcScreen = ({ navigation }) => {
     }
     return null;
   };
-  return (
 
+  return (
 
   <SafeAreaView style={{ flex: 1 }}>
   <TopNavigation title='Transportation' alignment='center' accessoryLeft={BackAction}/>
@@ -104,9 +108,10 @@ export const CalcScreen = ({ navigation }) => {
                 // style={styles.select}
                 label="How often do you use public transportation?"
                 placeholder='Active'
+                onBlur={onBlur}
                 selectedIndex={publicTransportFreqIndex}
                 onSelect={(index) => {
-                  setpublicTransportFreqIndex(index as IndexPath);
+                  setPublicTransportFreqIndex(index as IndexPath);
                   onChange(index); 
                 }}
               >
@@ -174,6 +179,7 @@ export const CalcScreen = ({ navigation }) => {
                 // style={styles.select}
                 label="What type of fuel does your car use?"
                 placeholder='Active'
+                onBlur={onBlur}
                 selectedIndex={carTypeIndex}
                 onSelect={(index) => {
                   setCarTypeIndex(index as IndexPath);
@@ -204,9 +210,10 @@ export const CalcScreen = ({ navigation }) => {
                 // style={styles.select}
                 label="What type of car do you drive?"
                 placeholder='Active'
+                onBlur={onBlur}
                 selectedIndex={carSizeIndex}
                 onSelect={(index) => {
-                  setcarSizeIndex(index as IndexPath);
+                  setCarSizeIndex(index as IndexPath);
                   onChange(index); 
                 }}
               >

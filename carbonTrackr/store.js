@@ -19,7 +19,6 @@ export const WizardStore = new Store({
 
 
   redMeatConsumption: 0, // Weekly consumption of red meat
-  vegetarianVeganMeals: 0, // Proportion of vegetarian or vegan meals
   localFoodPurchases: 0, // Frequency of purchasing locally sourced food
   poultryConsumption: 0, // Consumption of processed or packaged foods
   dairyConsumption: 0, // Consumption of dairy products

@@ -12,7 +12,40 @@ const BackIcon = (props) => (
   <Ionicons {...props} name='arrow-back' />
 );
 
-export const CalcScreen = ({ navigation }) => {
+const publicTransportData = [
+  "Rarely (2/month or less)",
+  "Occasionally (3-5/month)",
+  "Regularly (1/week or more)",
+];
+
+const carTypeData = [
+  'Petrol', 
+  'Diesel', 
+  'Hybrid',
+  'Electric',
+  'None',
+];
+
+const carSizeData = [
+  'Compact',
+  'SUV',
+  'Minivan',
+  'Pickup Truck',
+]
+
+export const CalcScreen = ({ navigation }): React.ReactElement => {
+
+  const [publicTransportFreqIndex, setPublicTransportFreqIndex] = React.useState<IndexPath>(new IndexPath(0));
+  const [carSizeIndex, setCarSizeIndex] = React.useState<IndexPath>(new IndexPath(0));
+  const [carTypeIndex, setCarTypeIndex] = React.useState<IndexPath>(new IndexPath(0));
+
+  const publicTransportValue = publicTransportData[publicTransportFreqIndex.row];
+  const carTypeValue = carTypeData[carTypeIndex.row]
+  const carSizeValue = carSizeData[carSizeIndex.row]
+
+  const renderOption = (title): React.ReactElement => (
+    <SelectItem title={title} />
+  );
 
   const navigateBack = () => {
     navigation.goBack();
@@ -36,7 +69,7 @@ export const CalcScreen = ({ navigation }) => {
       });
   }, [isFocused]);
 
-  
+
 const onSubmit = (data) => {
   try {
 
@@ -64,9 +97,6 @@ const onSubmit = (data) => {
     Keyboard.dismiss();
   };
 
-  const [publicTransportFreqIndex, setPublicTransportFreqIndex] = useState<IndexPath>();
-  const [carSizeIndex, setCarSizeIndex] = useState<IndexPath>();
-  const [carTypeIndex, setCarTypeIndex] = useState<IndexPath>();
 
 
   const renderError = (fieldName) => {
@@ -108,17 +138,11 @@ const onSubmit = (data) => {
                 // style={styles.select}
                 label="How often do you use public transportation?"
                 placeholder='Active'
-                onBlur={onBlur}
+                value={publicTransportValue}
                 selectedIndex={publicTransportFreqIndex}
-                onSelect={(index) => {
-                  setPublicTransportFreqIndex(index as IndexPath);
-                  onChange(index); 
-                }}
+                onSelect={(index: IndexPath) => setPublicTransportFreqIndex(index)}
               >
-                <SelectItem title= "Rarely (2/month or less)" />
-                <SelectItem title= "Occasionally (3-5/month)" />
-                <SelectItem title= "Regularly (1/week or more)" />
-
+                {publicTransportData.map(renderOption)}
               </Select>
             )}
             name="publicTransportFreq"
@@ -179,18 +203,11 @@ const onSubmit = (data) => {
                 // style={styles.select}
                 label="What type of fuel does your car use?"
                 placeholder='Active'
-                onBlur={onBlur}
+                value={carTypeValue}
                 selectedIndex={carTypeIndex}
-                onSelect={(index) => {
-                  setCarTypeIndex(index as IndexPath);
-                  onChange(index); 
-                }}
+                onSelect={(index: IndexPath) => setCarTypeIndex(index)}
               >
-                <SelectItem title='Petrol' />
-                <SelectItem title='Diesel' />
-                <SelectItem title='Hybrid' />
-                <SelectItem title='Electric' />
-                <SelectItem title='None'/>
+              {carTypeData.map(renderOption)}
               </Select>
             )}
             name="carType"
@@ -210,17 +227,11 @@ const onSubmit = (data) => {
                 // style={styles.select}
                 label="What type of car do you drive?"
                 placeholder='Active'
-                onBlur={onBlur}
+                value={carSizeValue}
                 selectedIndex={carSizeIndex}
-                onSelect={(index) => {
-                  setCarSizeIndex(index as IndexPath);
-                  onChange(index); 
-                }}
+                onSelect={(index: IndexPath) => setCarSizeIndex(index)}
               >
-                <SelectItem title='Compact' />
-                <SelectItem title='SUV' />
-                <SelectItem title='Minivan' />
-                <SelectItem title='Pickup Truck' />
+              {carSizeData.map(renderOption)}
               </Select>
             )}
             name="carSize"

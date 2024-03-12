@@ -11,8 +11,19 @@ const BackIcon = (props) => (
   <Ionicons {...props} name='arrow-back' />
 );
 
+const electricityTypeData = [
+  'Coal',
+  'Natural Gas',
+  'Petroleum',
+]
+
 export const EnergyScreen = ({ navigation }) => {
 
+
+  const [typeElectricityIndex, settypeElectricityIndex] = React.useState<IndexPath>(new IndexPath(0));
+  const typeElectricityValue = electricityTypeData[typeElectricityIndex.row];
+
+  
   // click on back arrow button, go to last page
   const navigateBack = () => {
     navigation.goBack();
@@ -20,11 +31,6 @@ export const EnergyScreen = ({ navigation }) => {
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack}/>
   );
-
-  //navigating to energy page of form (next section)
-  // const toFood = () => {
-  //   navigation.navigate('Food');
-  // };
 
   //
   const {
@@ -70,8 +76,10 @@ export const EnergyScreen = ({ navigation }) => {
     Keyboard.dismiss();
   };
 
-  const [typeElectricityIndex, settypeElectricityIndex] = React.useState<IndexPath>(); 
 
+  const renderOption = (title): React.ReactElement => (
+    <SelectItem title={title} />
+  );
   
   const renderError = (fieldName) => {
     if (errors[fieldName]) {
@@ -134,16 +142,11 @@ export const EnergyScreen = ({ navigation }) => {
                 // style={styles.select}
                 label={"What source of electricity do you use?"}
                 placeholder='Active'
-                onBlur={onBlur}
+                value={typeElectricityValue}
                 selectedIndex={typeElectricityIndex}
-                onSelect={(index) => {
-                  settypeElectricityIndex(index as IndexPath);
-                  onChange(index); 
-                }}
+                onSelect={(index: IndexPath) => settypeElectricityIndex(index)}
               >
-                <SelectItem title='Coal' />
-                <SelectItem title='Natural gas' />
-                <SelectItem title='Petroleum' />
+              {electricityTypeData.map(renderOption)}
               </Select>
             )}
             name="typeElectricity"

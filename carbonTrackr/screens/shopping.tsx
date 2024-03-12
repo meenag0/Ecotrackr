@@ -12,6 +12,24 @@ const BackIcon = (props) => (
   <Ionicons {...props} name='arrow-back' />
 );
 
+const fastFashionData = [
+  'Rarely',
+  'Ocassionaly',
+  'Often',
+]
+
+const sustainableShoppingData = [
+  'Rarely',
+  'Ocassionaly',
+  'Often',
+]
+
+const recyclingData = [
+  'Rarely',
+  'Ocassionaly',
+  'Often',
+]
+
 export const ShoppingScreen = ({ navigation }) => {
 
   // click on back arrow button, go to last page
@@ -23,10 +41,7 @@ export const ShoppingScreen = ({ navigation }) => {
     <TopNavigationAction icon={BackIcon} onPress={navigateBack}/>
   );
 
-  //navigating to energy page of form (next section)
 
-
-  //
   const {
     handleSubmit,
     control,
@@ -79,11 +94,20 @@ export const ShoppingScreen = ({ navigation }) => {
   };
 
   
-  const [fastFashionIndex, setFastFashionIndex] = React.useState<IndexPath>();
-  const [sustainableShoppingFrequencyIndex, setSustainableShoppingFrequencyIndex] = React.useState<IndexPath >(); 
-  const [RecyclingIndex, setRecyclingIndex] = React.useState<IndexPath>(); 
+  const [fastFashionIndex, setFastFashionIndex] = React.useState<IndexPath>(new IndexPath(0));
+  const [sustainableShoppingFrequencyIndex, setSustainableShoppingFrequencyIndex] = React.useState<IndexPath >(new IndexPath(0)); 
+  const [RecyclingIndex, setRecyclingIndex] = React.useState<IndexPath>(new IndexPath(0)); 
 
-  
+  const fastFashionValue = fastFashionData[fastFashionIndex.row];
+  const sustainableShoppingFrequencyValue = sustainableShoppingData[sustainableShoppingFrequencyIndex.row]
+  const recyclingValue = recyclingData[RecyclingIndex.row]
+
+
+  const renderOption = (title): React.ReactElement => (
+    <SelectItem title={title} />
+  );
+
+
   const renderError = (fieldName) => {
     if (errors[fieldName]) {
       return (
@@ -120,21 +144,16 @@ export const ShoppingScreen = ({ navigation }) => {
             rules={{
               required: true,
             }}
-            render={({ field: { onChange, onBlur, value } }) => (
+            render={({ field: { value } }) => (
               <Select
                 // style={styles.select}
                 label={"How often do you shop from fast fashion?"}
                 placeholder='Active'
-                onBlur={onBlur}
+                value={fastFashionValue}
                 selectedIndex={fastFashionIndex}
-                onSelect={(index) => {
-                  setFastFashionIndex(index as IndexPath);
-                  onChange(index); 
-                }}
+                onSelect={(index: IndexPath) => setFastFashionIndex(index)}
               >
-                <SelectItem title='Rarely' />
-                <SelectItem title='Ocassionally' />
-                <SelectItem title='Often' />
+              {fastFashionData.map(renderOption)}
               </Select>
             )}
             name="fastFashion"
@@ -154,16 +173,11 @@ export const ShoppingScreen = ({ navigation }) => {
                 // style={styles.select}
                 label={"How often do you shop sustainably?"}
                 placeholder='Active'
-                onBlur={onBlur}
+                value={sustainableShoppingFrequencyValue}
                 selectedIndex={sustainableShoppingFrequencyIndex}
-                onSelect={(index) => {
-                  setSustainableShoppingFrequencyIndex(index as IndexPath);
-                  onChange(index); 
-                }}
+                onSelect={(index: IndexPath) => setSustainableShoppingFrequencyIndex(index)}
               >
-                <SelectItem title='Rarely' />
-                <SelectItem title='Ocassionally' />
-                <SelectItem title='Often' />
+                {sustainableShoppingData.map(renderOption)}
               </Select>
             )}
             name="sustainableShoppingFrequency"
@@ -183,16 +197,11 @@ export const ShoppingScreen = ({ navigation }) => {
                 // style={styles.select}
                 label={"How often do you recycle?"}
                 placeholder='Active'
-                onBlur={onBlur}
+                value={recyclingValue}
                 selectedIndex={RecyclingIndex}
-                onSelect={(index) => {
-                  setRecyclingIndex(index as IndexPath);
-                  onChange(index); 
-                }}
+                onSelect={(index: IndexPath) => setRecyclingIndex(index)}
               >
-                <SelectItem title='Rarely' />
-                <SelectItem title='Occasionally' />
-                <SelectItem title='Often' />
+                {recyclingData.map(renderOption)}
               </Select>
             )}
             name="Recycling"

@@ -11,7 +11,21 @@ const BackIcon = (props) => (
   <Ionicons {...props} name='arrow-back' />
 );
 
+const localFoodData = [
+  'Rarely',
+  'Ocassionaly',
+  'Often',
+]
+
 export const FoodScreen = ({ navigation }) => {
+
+
+  const [localFoodPurchasesIndex, setlocalFoodPurchasesIndex] = React.useState<IndexPath>(new IndexPath(0));
+  const localFoodValue = localFoodData[localFoodPurchasesIndex.row];
+
+  const renderOption = (title): React.ReactElement => (
+    <SelectItem title={title} />
+  );
 
   // click on back arrow button, go to last page
   const navigateBack = () => {
@@ -41,6 +55,7 @@ export const FoodScreen = ({ navigation }) => {
 
   const onSubmit = (data) => {
     try{
+      
       // Update WizardStore state locally
       WizardStore.update((s) => {
         s.progress = 40;
@@ -51,7 +66,7 @@ export const FoodScreen = ({ navigation }) => {
         s.seafoodConsumption = data.seafoodConsumption;
       });
   
-      console.log("Fast Fashion Index:", localFoodPurchasesIndex.row);
+      // console.log("Fast Fashion Index:", localFoodPurchasesIndex.row);
 
       // Navigate to the 'Shopping' screen
       navigation.navigate('Shopping');
@@ -66,7 +81,6 @@ export const FoodScreen = ({ navigation }) => {
     Keyboard.dismiss();
   };
 
-  const [localFoodPurchasesIndex, setlocalFoodPurchasesIndex] = React.useState<IndexPath>();
 
   const renderError = (fieldName) => {
     if (errors[fieldName]) {
@@ -122,16 +136,11 @@ export const FoodScreen = ({ navigation }) => {
                     <Select
                       label="How often do you buy produce from local sources?"
                       placeholder='Active'
-                      onBlur={onBlur}
+                      value={localFoodValue}
                       selectedIndex={localFoodPurchasesIndex}
-                      onSelect={(index) => {
-                        setlocalFoodPurchasesIndex(index as IndexPath);
-                        onChange(index); 
-                      }}
+                      onSelect={(index: IndexPath) => setlocalFoodPurchasesIndex(index)}
                     >
-                      <SelectItem title='Rarely' />
-                      <SelectItem title='Occasionally' />
-                      <SelectItem title='Often' />
+                      {localFoodData.map(renderOption)}
                     </Select>
                   )}
                   name="localFoodPurchases"

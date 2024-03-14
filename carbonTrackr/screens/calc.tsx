@@ -9,7 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 const BackIcon = (props) => (
-  <Ionicons {...props} name='arrow-back' />
+  <Ionicons {...props} name='arrow-back' style={{ color: '#FFFFFF' }} />
 );
 
 const publicTransportData = [
@@ -43,8 +43,8 @@ export const CalcScreen = ({ navigation }): React.ReactElement => {
   const carTypeValue = carTypeData[carTypeIndex.row]
   const carSizeValue = carSizeData[carSizeIndex.row]
 
-  const renderOption = (title): React.ReactElement => (
-    <SelectItem title={title} />
+  const renderOption = (title, index) => (
+    <SelectItem key={index} title={title} />
   );
 
   const navigateBack = () => {
@@ -142,7 +142,8 @@ const onSubmit = (data) => {
                 selectedIndex={publicTransportFreqIndex}
                 onSelect={(index: IndexPath) => setPublicTransportFreqIndex(index)}
               >
-                {publicTransportData.map(renderOption)}
+                {publicTransportData.map((title, index) => renderOption(title, index))}
+
               </Select>
             )}
             name="publicTransportFreq"
@@ -207,7 +208,8 @@ const onSubmit = (data) => {
                 selectedIndex={carTypeIndex}
                 onSelect={(index: IndexPath) => setCarTypeIndex(index)}
               >
-              {carTypeData.map(renderOption)}
+              {carTypeData.map((title, index) => renderOption(title, index))}
+
               </Select>
             )}
             name="carType"
@@ -231,7 +233,8 @@ const onSubmit = (data) => {
                 selectedIndex={carSizeIndex}
                 onSelect={(index: IndexPath) => setCarSizeIndex(index)}
               >
-              {carSizeData.map(renderOption)}
+              {carSizeData.map((title, index) => renderOption(title, index))}
+
               </Select>
             )}
             name="carSize"

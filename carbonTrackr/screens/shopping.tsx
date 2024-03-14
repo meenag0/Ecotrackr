@@ -9,7 +9,7 @@ import HomeScreen from "../tabs/HomeScreen";
 import { Ionicons } from '@expo/vector-icons';
 
 const BackIcon = (props) => (
-  <Ionicons {...props} name='arrow-back' />
+  <Ionicons {...props} name='arrow-back' style={{ color: '#FFFFFF' }} />
 );
 
 const fastFashionData = [
@@ -71,8 +71,10 @@ const onSubmit = async (data) => {
     });
 
     // Send the updated WizardStore data to the backend
-    const response = await axios.post('http://10.0.0.192:8000/calculate-emissions', WizardStore.getRawState());
+    const response = await axios.post('http://127.0.0.1:8000', WizardStore.getRawState());
     const totalEmissions = response.data.total_emissions;
+    console.log("Response from backend:", response.data); // Log the entire response data
+
     // Update state with the calculated total emissions
     WizardStore.update((s) => {
       s.totalEmissions = totalEmissions;
@@ -104,9 +106,10 @@ const onSubmit = async (data) => {
   const recyclingValue = recyclingData[RecyclingIndex.row]
 
 
-  const renderOption = (title): React.ReactElement => (
-    <SelectItem title={title} />
+  const renderOption = (title, index) => (
+    <SelectItem key={index} title={title} />
   );
+  
 
 
   const renderError = (fieldName) => {
@@ -154,7 +157,7 @@ const onSubmit = async (data) => {
                 selectedIndex={fastFashionIndex}
                 onSelect={(index: IndexPath) => setFastFashionIndex(index)}
               >
-              {fastFashionData.map(renderOption)}
+              {fastFashionData.map((title, index) => renderOption(title, index))}
               </Select>
             )}
             name="fastFashion"
@@ -178,7 +181,8 @@ const onSubmit = async (data) => {
                 selectedIndex={sustainableShoppingFrequencyIndex}
                 onSelect={(index: IndexPath) => setSustainableShoppingFrequencyIndex(index)}
               >
-                {sustainableShoppingData.map(renderOption)}
+                {sustainableShoppingData.map((title, index) => renderOption(title, index))}
+
               </Select>
             )}
             name="sustainableShoppingFrequency"
@@ -202,7 +206,8 @@ const onSubmit = async (data) => {
                 selectedIndex={RecyclingIndex}
                 onSelect={(index: IndexPath) => setRecyclingIndex(index)}
               >
-                {recyclingData.map(renderOption)}
+                {recyclingData.map((title, index) => renderOption(title, index))}
+
               </Select>
             )}
             name="Recycling"

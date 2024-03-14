@@ -27,6 +27,8 @@ export const WizardStore = new Store({
   fastFashion:0,
   sustainableShoppingFrequency:0,
   Recycling:0,
+
+  totalEmissions: 0,
   
 });
 

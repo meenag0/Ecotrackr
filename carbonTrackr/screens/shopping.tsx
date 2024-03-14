@@ -59,32 +59,33 @@ export const ShoppingScreen = ({ navigation }) => {
   }, [isFocused]);
 
 
-  const onSubmit = (data) => {
-    try {
-      // Update WizardStore state with selected indexes
-      WizardStore.update((s) => {
-        s.progress = 40;
-        s.fastFashion = fastFashionIndex.row;
-        s.sustainableShoppingFrequency = sustainableShoppingFrequencyIndex.row;
-        s.Recycling = RecyclingIndex.row;
-      });
-  
-      // Log the index values
-      console.log("Fast Fashion Index:", fastFashionIndex.row);
-      console.log("Sustainable Shopping Frequency Index:", sustainableShoppingFrequencyIndex.row);
-      console.log("Recycling Index:", RecyclingIndex.row);
-  
-      // Send the updated WizardStore data to the backend
-      axios.post('http://10.0.0.192:8081', WizardStore.getRawState());
-      console.log("WizardStore data sent to the backend successfully");
-  
-      // Navigate to the 'Home' screen
-      navigation.navigate('Home');
-    } catch (error) {
-      console.error('Error submitting WizardStore data to backend:', error);
-      // Handle error (e.g., display an error message to the user)
-    }
-  };
+// Function to handle form submission
+const onSubmit = async (data) => {
+  try {
+    // Update WizardStore state with selected indexes
+    WizardStore.update((s) => {
+      s.progress = 40;
+      s.fastFashion = fastFashionIndex.row;
+      s.sustainableShoppingFrequency = sustainableShoppingFrequencyIndex.row;
+      s.Recycling = RecyclingIndex.row;
+    });
+
+    // Send the updated WizardStore data to the backend
+    const response = await axios.post('http://10.0.0.192:8000/calculate-emissions', WizardStore.getRawState());
+    const totalEmissions = response.data.total_emissions;
+    // Update state with the calculated total emissions
+    WizardStore.update((s) => {
+      s.totalEmissions = totalEmissions;
+    });
+    console.log("Total emissions received from backend:", totalEmissions);
+    // Navigate to the Home screen
+    navigation.navigate('Home', { totalEmissions });
+  } catch (error) {
+    console.error('Error submitting WizardStore data to backend:', error);
+    // Handle error (e.g., display an error message to the user)
+  }
+};
+
   
   
  

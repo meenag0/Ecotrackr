@@ -43,9 +43,10 @@ export const CalcScreen = ({ navigation }): React.ReactElement => {
   const carTypeValue = carTypeData[carTypeIndex.row]
   const carSizeValue = carSizeData[carSizeIndex.row]
 
-  const renderOption = (title): React.ReactElement => (
-    <SelectItem title={title} />
+  const renderOption = (title, index): React.ReactElement => (
+    <SelectItem key={index} title={title} />
   );
+  
 
   const navigateBack = () => {
     navigation.goBack();
@@ -59,7 +60,7 @@ export const CalcScreen = ({ navigation }): React.ReactElement => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({ defaultValues: WizardStore.useState((s) => s) });
+  } = useForm();
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -101,11 +102,13 @@ const onSubmit = (data) => {
 
   const renderError = (fieldName) => {
     if (errors[fieldName]) {
-      return (
-        <Text style={styles.errorText}>
-          This is a required field.
-        </Text>
-      );
+      if (errors[fieldName].type === 'required') {
+        return (
+          <Text style={styles.errorText}>
+            This is a required field.
+          </Text>
+        );
+      }
     }
     return null;
   };
@@ -131,7 +134,6 @@ const onSubmit = (data) => {
             <Controller
               control={control}
               rules={{
-                required: true,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Select
@@ -142,12 +144,12 @@ const onSubmit = (data) => {
                 selectedIndex={publicTransportFreqIndex}
                 onSelect={(index: IndexPath) => setPublicTransportFreqIndex(index)}
               >
-                {publicTransportData.map(renderOption)}
+                  {publicTransportData.map((option, index) => renderOption(option, index))}
+
               </Select>
             )}
             name="publicTransportFreq"
             />
-            {renderError('publicTransportFreq')}
           </View>
 
 
@@ -196,7 +198,6 @@ const onSubmit = (data) => {
             <Controller
               control={control}
               rules={{
-                required: true,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Select
@@ -207,12 +208,12 @@ const onSubmit = (data) => {
                 selectedIndex={carTypeIndex}
                 onSelect={(index: IndexPath) => setCarTypeIndex(index)}
               >
-              {carTypeData.map(renderOption)}
+                {carTypeData.map((option, index) => renderOption(option, index))}
+
               </Select>
             )}
             name="carType"
             />
-            {renderError('carType')}
           </View>
 
 
@@ -220,7 +221,6 @@ const onSubmit = (data) => {
             <Controller
               control={control}
               rules={{
-                required: true,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Select
@@ -231,12 +231,12 @@ const onSubmit = (data) => {
                 selectedIndex={carSizeIndex}
                 onSelect={(index: IndexPath) => setCarSizeIndex(index)}
               >
-              {carSizeData.map(renderOption)}
+                {carSizeData.map((option, index) => renderOption(option, index))}
+
               </Select>
             )}
             name="carSize"
             />
-            {renderError('carSize')}
           </View>          
 
 

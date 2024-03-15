@@ -23,8 +23,8 @@ export const FoodScreen = ({ navigation }) => {
   const [localFoodPurchasesIndex, setlocalFoodPurchasesIndex] = React.useState<IndexPath>(new IndexPath(0));
   const localFoodValue = localFoodData[localFoodPurchasesIndex.row];
 
-  const renderOption = (title): React.ReactElement => (
-    <SelectItem title={title} />
+  const renderOption = (title, index): React.ReactElement => (
+    <SelectItem key={index} title={title} />
   );
 
   // click on back arrow button, go to last page
@@ -40,12 +40,13 @@ export const FoodScreen = ({ navigation }) => {
   const {
     handleSubmit,
     control,
-    formState: { errors },
-  } = useForm({ defaultValues: WizardStore.useState((s) => s) 
-  });
+    formState: { errors },  
+  } = useForm();
+
 
   const isFocused = useIsFocused();
   useEffect(() => {
+
     isFocused &&
       WizardStore.update((s) => {
         s.progress = 20;
@@ -55,6 +56,7 @@ export const FoodScreen = ({ navigation }) => {
 
   const onSubmit = (data) => {
     try{
+      
       
       // Update WizardStore state locally
       WizardStore.update((s) => {
@@ -84,14 +86,18 @@ export const FoodScreen = ({ navigation }) => {
 
   const renderError = (fieldName) => {
     if (errors[fieldName]) {
-      return (
-        <Text style={styles.errorText}>
-          This is a required field.
-        </Text>
-      );
+      if (errors[fieldName].type === 'required') {
+        return (
+          <Text style={styles.errorText}>
+            This is a required field.
+          </Text>
+        );
+      }
     }
     return null;
   };
+
+  console.log(errors);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -130,7 +136,6 @@ export const FoodScreen = ({ navigation }) => {
                 <Controller
                   control={control}
                   rules={{
-                    required: true,
                   }}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <Select
@@ -140,12 +145,12 @@ export const FoodScreen = ({ navigation }) => {
                       selectedIndex={localFoodPurchasesIndex}
                       onSelect={(index: IndexPath) => setlocalFoodPurchasesIndex(index)}
                     >
-                      {localFoodData.map(renderOption)}
+                      {localFoodData.map((option, index) => renderOption(option, index))}
+
                     </Select>
                   )}
                   name="localFoodPurchases"
                 />
-                {renderError('localFoodPurchases')}
               </View>
 
               {/* input for number of meals with poultry (poultryConsumption) */}

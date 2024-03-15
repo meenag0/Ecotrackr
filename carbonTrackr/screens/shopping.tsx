@@ -32,6 +32,7 @@ const recyclingData = [
 
 export const ShoppingScreen = ({ navigation }) => {
 
+
   // click on back arrow button, go to last page
   const navigateBack = () => {
     navigation.goBack();
@@ -46,8 +47,7 @@ export const ShoppingScreen = ({ navigation }) => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({ defaultValues: WizardStore.useState((s) => s) 
-  });
+  } = useForm();
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -70,12 +70,14 @@ const onSubmit = async (data) => {
       s.Recycling = RecyclingIndex.row;
     });
 
-    console.log(WizardStore)
+    console.log(WizardStore.getRawState())
+
+
 
     // Send the updated WizardStore data to the backend
-    const response = await axios.post('http://localhost:8000', {
-      WizardStore
-    });
+    const response = await axios.post('http://localhost:8000', 
+      WizardStore.getRawState()
+    );
     
     console.log("Response from backend:", response.data); // Log the entire response data
 
@@ -98,8 +100,6 @@ const onSubmit = async (data) => {
       // If the error includes a response object, log the response data
       console.log('Response data:', error.response.data);
     }
-
-    // Handle error (e.g., display an error message to the user)
   }
 };
 
@@ -121,7 +121,7 @@ const onSubmit = async (data) => {
   const recyclingValue = recyclingData[RecyclingIndex.row]
 
 
-  const renderOption = (title, index) => (
+  const renderOption = (title, index): React.ReactElement => (
     <SelectItem key={index} title={title} />
   );
   
@@ -161,7 +161,6 @@ const onSubmit = async (data) => {
           <Controller
             control={control}
             rules={{
-              required: true,
             }}
             render={({ field: { value } }) => (
               <Select
@@ -172,12 +171,11 @@ const onSubmit = async (data) => {
                 selectedIndex={fastFashionIndex}
                 onSelect={(index: IndexPath) => setFastFashionIndex(index)}
               >
-              {fastFashionData.map((title, index) => renderOption(title, index))}
+              {fastFashionData.map((option, index) => renderOption(option, index))}
               </Select>
             )}
             name="fastFashion"
           />
-          {renderError('fastFashion')}
         </View>
 
         {/* drop down menu for Average age of appliances */}
@@ -185,7 +183,6 @@ const onSubmit = async (data) => {
           <Controller
             control={control}
             rules={{
-              required: true,
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Select
@@ -196,13 +193,11 @@ const onSubmit = async (data) => {
                 selectedIndex={sustainableShoppingFrequencyIndex}
                 onSelect={(index: IndexPath) => setSustainableShoppingFrequencyIndex(index)}
               >
-                {sustainableShoppingData.map((title, index) => renderOption(title, index))}
-
+              {sustainableShoppingData.map((option, index) => renderOption(option, index))}
               </Select>
             )}
             name="sustainableShoppingFrequency"
           />
-          {renderError('sustainableShoppingFrequency')}
         </View>
 
         {/* drop down menu for Average age of appliances */}
@@ -210,9 +205,8 @@ const onSubmit = async (data) => {
           <Controller
             control={control}
             rules={{
-              required: true, 
             }}
-            render={({ field: { onChange, onBlur, value } }) => (
+            render={({ field: { value } }) => (
               <Select
                 // style={styles.select}
                 label={"How often do you recycle?"}
@@ -221,13 +215,12 @@ const onSubmit = async (data) => {
                 selectedIndex={RecyclingIndex}
                 onSelect={(index: IndexPath) => setRecyclingIndex(index)}
               >
-                {recyclingData.map((title, index) => renderOption(title, index))}
+                {recyclingData.map((option, index) => renderOption(option, index))}
 
               </Select>
             )}
             name="Recycling"
           />
-          {renderError('Recycling')}
         </View>
 
 

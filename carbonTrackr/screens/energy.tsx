@@ -37,8 +37,7 @@ export const EnergyScreen = ({ navigation }) => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({ defaultValues: WizardStore.useState((s) => s) 
-  });
+  } = useForm();
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -77,20 +76,23 @@ export const EnergyScreen = ({ navigation }) => {
   };
 
 
-  const renderOption = (title): React.ReactElement => (
-    <SelectItem title={title} />
+  const renderOption = (title, index): React.ReactElement => (
+    <SelectItem key={index} title={title} />
   );
   
   const renderError = (fieldName) => {
     if (errors[fieldName]) {
-      return (
-        <Text style={styles.errorText}>
-          This is a required field.
-        </Text>
-      );
+      if (errors[fieldName].type === 'required') {
+        return (
+          <Text style={styles.errorText}>
+            This is a required field.
+          </Text>
+        );
+      }
     }
     return null;
   };
+  
   return (
 
 
@@ -135,7 +137,6 @@ export const EnergyScreen = ({ navigation }) => {
             <Controller
               control={control}
               rules={{
-                required: true,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Select
@@ -146,12 +147,11 @@ export const EnergyScreen = ({ navigation }) => {
                 selectedIndex={typeElectricityIndex}
                 onSelect={(index: IndexPath) => settypeElectricityIndex(index)}
               >
-              {electricityTypeData.map(renderOption)}
+                {electricityTypeData.map((option, index) => renderOption(option, index))}
               </Select>
             )}
             name="typeElectricity"
             />
-            {renderError('typeElectricity')}
           </View>
 
 

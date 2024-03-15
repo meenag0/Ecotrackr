@@ -1,4 +1,4 @@
-import { registerInDevtools, Store } from "pullstate";
+import { Store } from "pullstate";
 
 
 
@@ -31,6 +31,3 @@ export const WizardStore = new Store({
   totalEmissions: 0,
 });
 
-registerInDevtools({
-  WizardStore,
-});

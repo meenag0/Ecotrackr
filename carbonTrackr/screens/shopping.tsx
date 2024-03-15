@@ -70,9 +70,18 @@ const onSubmit = async (data) => {
       s.Recycling = RecyclingIndex.row;
     });
 
+    console.log(WizardStore)
+
     // Send the updated WizardStore data to the backend
-    const response = await axios.post('http://127.0.0.1:8000', WizardStore.getRawState());
+    const response = await axios.post('http://localhost:8000', {
+      WizardStore
+    });
+    
+    console.log("Response from backend:", response.data); // Log the entire response data
+
+    // Extract total emissions from the response
     const totalEmissions = response.data.total_emissions;
+
     console.log("Response from backend:", response.data); // Log the entire response data
 
     // Update state with the calculated total emissions
@@ -80,10 +89,16 @@ const onSubmit = async (data) => {
       s.totalEmissions = totalEmissions;
     });
     console.log("Total emissions received from backend:", totalEmissions);
+
     // Navigate to the Home screen
     navigation.navigate('Home', { totalEmissions });
   } catch (error) {
     console.error('Error submitting WizardStore data to backend:', error);
+    if (error.response) {
+      // If the error includes a response object, log the response data
+      console.log('Response data:', error.response.data);
+    }
+
     // Handle error (e.g., display an error message to the user)
   }
 };

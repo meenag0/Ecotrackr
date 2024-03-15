@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 const BackIcon = (props) => (
-  <Ionicons {...props} name='arrow-back' style={{ color: '#FFFFFF' }} />
+  <Ionicons {...props} name='arrow-back' />
 );
 
 const electricityTypeData = [
@@ -77,8 +77,8 @@ export const EnergyScreen = ({ navigation }) => {
   };
 
 
-  const renderOption = (title, index) => (
-    <SelectItem key={index} title={title} />
+  const renderOption = (title): React.ReactElement => (
+    <SelectItem title={title} />
   );
   
   const renderError = (fieldName) => {
@@ -146,8 +146,7 @@ export const EnergyScreen = ({ navigation }) => {
                 selectedIndex={typeElectricityIndex}
                 onSelect={(index: IndexPath) => settypeElectricityIndex(index)}
               >
-              {electricityTypeData.map((title, index) => renderOption(title, index))}
-
+              {electricityTypeData.map(renderOption)}
               </Select>
             )}
             name="typeElectricity"

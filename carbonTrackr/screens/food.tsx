@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 const BackIcon = (props) => (
-  <Ionicons {...props} name='arrow-back' style={{ color: '#FFFFFF' }} />
+  <Ionicons {...props} name='arrow-back' />
 );
 
 const localFoodData = [
@@ -23,8 +23,8 @@ export const FoodScreen = ({ navigation }) => {
   const [localFoodPurchasesIndex, setlocalFoodPurchasesIndex] = React.useState<IndexPath>(new IndexPath(0));
   const localFoodValue = localFoodData[localFoodPurchasesIndex.row];
 
-  const renderOption = (title, index) => (
-    <SelectItem key={index} title={title} />
+  const renderOption = (title): React.ReactElement => (
+    <SelectItem title={title} />
   );
 
   // click on back arrow button, go to last page
@@ -140,8 +140,7 @@ export const FoodScreen = ({ navigation }) => {
                       selectedIndex={localFoodPurchasesIndex}
                       onSelect={(index: IndexPath) => setlocalFoodPurchasesIndex(index)}
                     >
-                      {localFoodData.map((title, index) => renderOption(title, index))}
-
+                      {localFoodData.map(renderOption)}
                     </Select>
                   )}
                   name="localFoodPurchases"

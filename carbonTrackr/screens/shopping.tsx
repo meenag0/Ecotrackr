@@ -75,8 +75,8 @@ const onSubmit = async (data) => {
 
 
     // Send the updated WizardStore data to the backend
-    const response = await axios.post('http://localhost:8000', 
-      WizardStore.getRawState()
+    const response = await axios.post('http://10.0.0.192:8081', 
+    WizardStore.getRawState() 
     );
     
     console.log("Response from backend:", response.data); // Log the entire response data
@@ -93,7 +93,7 @@ const onSubmit = async (data) => {
     console.log("Total emissions received from backend:", totalEmissions);
 
     // Navigate to the Home screen
-    navigation.navigate('Home', { totalEmissions });
+    navigation.navigate('Progress', { totalEmissions });
   } catch (error) {
     console.error('Error submitting WizardStore data to backend:', error);
     if (error.response) {

@@ -1,13 +1,27 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { SafeAreaView } from 'react-native';
+import { useState } from 'react';
+import { Text, Button, Divider, Layout, TopNavigation } from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
+import { CalcScreen } from '../screens/calc';
 
+const HomeScreen = ({ navigation, route }) => {
 
-const ProgressScreen = () => {
+  const { totalEmissions } = route.params || {}; // Access totalEmissions from route.params
+
+  const navigateDetails = () => {
+    navigation.navigate('Calc');
+  };
+  
   return (
-    <View>
-      <Text>ProgressScreen</Text>
-    </View>
-  )
-}
+      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: 34, fontWeight: 'bold', textAlign: 'center', marginBottom: 20, position: 'absolute', top: 20, left: 20 }}>
+        Total Emissions: {totalEmissions}
+        </Text>
 
-export default ProgressScreen
+        <Button onPress={navigateDetails}>Calculate carbon footprint.</Button>
+      </Layout>
+  );
+};
+
+export default HomeScreen

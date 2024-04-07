@@ -75,7 +75,7 @@ const onSubmit = async (data) => {
 
 
     // Send the updated WizardStore data to the backend
-    const response = await axios.post('http://10.0.0.192:8082', 
+    const response = await axios.post('http://localhost:8000', 
     WizardStore.getRawState() 
     );
     

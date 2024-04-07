@@ -13,7 +13,7 @@ import { EnergyScreen } from './screens/energy';
 import { FoodScreen } from './screens/food';
 import { ShoppingScreen } from './screens/shopping';
 import HomeScreen from './tabs/HomeScreen';
-
+import MapScreen from './tabs/MapScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -41,18 +41,18 @@ const MainTabNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Profile"
-      component={ProfileScreen}
+      name="Maps"
+      component={MapScreen}
       options={{
-        tabBarLabel: 'Profile',
+        tabBarLabel: 'Maps',
         tabBarIcon: () => <Ionicons name={'person'} size={20} />,
       }}
     />
     <Tab.Screen
-      name="Habits"
+      name="Profile"
       component={ProfileScreen}
       options={{
-        tabBarLabel: 'Habits',
+        tabBarLabel: 'Profile',
         tabBarIcon: () => <Ionicons name={'person'} size={20} />,
       }}
     />
@@ -69,6 +69,7 @@ export default () => (
           <Stack.Screen name="Energy" component={EnergyScreen}/>
           <Stack.Screen name="Food" component={FoodScreen}/>
           <Stack.Screen name="Shopping" component={ShoppingScreen}/>
+          
         </Stack.Navigator>
       </NavigationContainer>
     </ApplicationProvider>

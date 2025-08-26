@@ -2,7 +2,7 @@
 
 EcoTrackr is a full-stack application that allows users to calculate their carbon footprint and provides location-based data through APIs. The app's objective is to empower individuals to make environmentally conscious decisions.
 
-##Repositories
+Repositories
 -----------------------------
 - [EcoTrackr Frontend Repo](https://github.com/meenag0/Ecotrackr/tree/main)  
 - [EcoTrackr Backend Repo](https://github.com/meenag0/Ecotrackr-Backend/tree/main)
